@@ -3,48 +3,61 @@
 **Date:** 2026-05-01
 **Milestone:** M0 — Architecture & Foundation
 **Branch:** `feat/m0-foundation`
-**Next task:** T9 (Phase 3 — first parallel wave)
+**Next task:** T14 + T15 (Phase 4 — parallel)
 
 ## Completed ✓
 
 ### Phase 1 — Scaffold
-- **T1** — Package.swift (5 targets, swift-argument-parser 1.7.1), full directory scaffold. `swift build` ✓. Commit: `3e12032`
-- **T2** — `.specs/codebase/TESTING.md`: gate commands, coverage matrix, mock patterns. Commit: `ea6a0b0`
-- **chore** — `.gitignore`. Commit: `ccc6b24`
+- **T1** — Package.swift (5 targets, swift-argument-parser 1.7.1), full directory scaffold. Commit: `3e12032`
+- **T2** — `.specs/codebase/TESTING.md`. Commit: `ea6a0b0`
 
 ### Phase 2 — EkkoCore protocols + models (parallel, all complete)
-- **T3** — `FileSystemProvider` protocol + `FileAttributes` model + 8 unit tests. Commit: `2b188ef`
-- **T4** — `ConfigStore` protocol + 5 unit tests (round-trip, delete, nil-for-missing). Commit: `2321d31`
-- **T5** — `SchedulerProvider` + `BackupSchedule` (custom Codable for associated-value enum) + `SchedulerStatus` + 7 unit tests. Commit: `59bb4ee`
-- **T6** — `Feature` enum + `FeatureFlagProvider` + `FeatureFlags` (internal `AllEnabledFeatureFlagProvider` default) + 5 unit tests. Commit: `07c4e39`
-- **T7** — `EkkoLogger` (JSON-lines, retention pruning, os_log for .error) + `LogEntry` + `LogLevel` + 4 unit tests. Commit: `3cfe698`
-- **T8** — `EkkoVersion` (`current = "0.1.0"`, `build = "1"`). Commit: `2a34314`
-
-### Docs / chore
-- `chore`: CLAUDE.md build commands updated with `DEVELOPER_DIR=...` prefix (required for Swift Testing)
-- `chore`: EkkaPlatformTests placeholder fixed (removed premature `import Testing`)
+- **T3** — `FileSystemProvider` + `FileAttributes` + 8 unit tests. Commit: `2b188ef`
+- **T4** — `ConfigStore` + 5 unit tests. Commit: `2321d31`
+- **T5** — `SchedulerProvider` + `BackupSchedule` + `SchedulerStatus` + 7 unit tests. Commit: `59bb4ee`
+- **T6** — `Feature` + `FeatureFlagProvider` + `FeatureFlags` + 5 unit tests. Commit: `07c4e39`
+- **T7** — `EkkoLogger` + `LogEntry` + `LogLevel` + 4 unit tests. Commit: `3cfe698`
+- **T8** — `EkkoVersion`. Commit: `2a34314`
 
 **Phase 2 test result: 28 tests, 0 failures**
 
+### Phase 3 — EkkaPlatform adapters (parallel, all complete)
+- **T9** — `DirectFileSystemProvider` + 9 unit tests. Commit: `62c2b30`
+- **T10** — `LocalConfigStore` + 5 unit tests. Commit: `9fcabbf`
+- **T11** — `LaunchdScheduler` + plist template + `LaunchctlRunner` protocol + 6 unit tests. Updated `Package.swift` with resources. Commit: `36da22b`
+- **T12** — `CLIInstaller` + 7 unit tests. Commit: `f34a9e6`
+- **T13** — `DefaultFeatureFlagProvider` + 2 unit tests. Commit: `0a6dd1f`
+- **fix** — corrected module name `EkkaPlatform→EkkoPlatform` in test imports, moved sources from wrong dir, fixed `/var→/private/var` symlink in test. Commit: `c30a591`
+- **simplify** — extracted `agentLabel` constant, hoisted single `libraryURL`, fixed 5 TOCTOU patterns, `makeTempDir()` helper, `symlinkExists()` helper. Commit: `df982e5`
+
+**Phase 3 test result: 57 tests, 0 failures**
+
+### Phase 3 gates
+- coupling-analysis: ✅ Healthy — all adapters use Contract Coupling; EkkoCore purity confirmed
+- simplify: ✅ Applied — 8 findings addressed (TOCTOU, duplication, stringly-typed label, docstring)
+- Architecture purity: ✅ `grep "import AppKit|import SwiftUI|import ServiceManagement" Sources/EkkoCore/` = zero results
+
 ## In Progress
 
-Nothing — Phase 2 complete and committed. Awaiting user approval to start Phase 3.
+Nothing — Phase 3 complete. Awaiting user approval to start Phase 4.
 
 ## Pending
 
-### Phase 3 — EkkaPlatform adapters (parallel, T9–T13)
-Depend on Phase 2 protocols being complete (✓).
+### Phase 4 — App Shell + CLI Entry Point (parallel, T14–T15)
 
 | Task | What | Depends on |
 |---|---|---|
-| T9 [P] | `DirectFileSystemProvider` + tests | T3 |
-| T10 [P] | `LocalConfigStore` + tests | T4 |
-| T11 [P] | `LaunchdScheduler` + plist template + tests | T5 |
-| T12 [P] | `CLIInstaller` + tests | T1 |
-| T13 [P] | `DefaultFeatureFlagProvider` + tests | T6 |
+| T14 [P] | EkkoApp Xcode project + placeholder UI | T1, T8 — **requires manual Xcode GUI step** |
+| T15 [P] | EkkaCLI entry point (main.swift + RootCommand + AgentTriggerCommand) | T1, T8 |
 
-### Phase 4 — App Shell + CLI entry point (parallel, T14–T15)
 ### Phase 5 — Integration + Verification (sequential, T16–T17)
+
+## Design Decisions Made in Phase 3
+
+- **LaunchdScheduler plist template**: embedded as `static let plistTemplate` string (not loaded from bundle) — avoids SPM resource resolution complexity in tests. File `com.ekko.agent.plist` mirrors the constant and is declared as `.copy` resource.
+- **CLIInstaller static API**: kept for T16 wiring convenience. Instance API (`performInstall`, `performUninstall`, `checkInstalled`) exposed for testability.
+- **ConfigError**: no associated values on error cases — keeps error type `Equatable` and API clean. Defer richer error info to M1 if needed.
+- **fileManager injection in DirectFileSystemProvider**: kept as `init(fileManager:)` parameter for future testability (tests use temp dirs rather than mock FileManager currently).
 
 ## Blockers
 
@@ -52,12 +65,5 @@ None.
 
 ## Environment Notes
 
-- **Swift Testing requires Xcode.app** — all gate commands need `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer` prefix. CommandLineTools does not include `Testing.framework` for macOS.
-- Use `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test` for all DOD checks.
-
-## Design Decisions Made in Phase 2
-
-- **EkkoLogger** implemented as instance struct (not purely static) for testability; static `shared` can be added in T16 wiring if needed.
-- **FeatureFlags.provider** uses `any FeatureFlagProvider` existential (Swift 5.7+ syntax); default is internal `AllEnabledFeatureFlagProvider` since EkkoCore cannot import EkkaPlatform. EkkaPlatform's `DefaultFeatureFlagProvider` replaces it at app startup (T16).
-- **MockSchedulerProvider** is a `class` (not struct) because `SchedulerProvider` protocol methods are non-mutating; struct conformance would require `mutating` which the protocol doesn't allow.
-- **BackupSchedule.Interval** uses manual Codable with discriminator key `type` (Swift cannot auto-synthesize Codable for enums with associated values).
+- Swift Testing requires Xcode.app — prefix ALL commands with `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`
+- T14 requires a manual Xcode GUI step (create `.xcodeproj`) — agent must post the MANUAL STEP REQUIRED block and wait

@@ -239,13 +239,14 @@ All phases complete, then:
 **Requirements**: M0-03
 
 **Done when**:
-- [ ] Conforms to `FileSystemProvider`; all 6 methods delegate to `FileManager`
-- [ ] `copy(from:to:)` creates destination parent directories if missing
-- [ ] Tests use `FileManager.default.temporaryDirectory` — no permanent side effects; temp dirs cleaned up in `tearDown`
-- [ ] Gate passes: `swift test --filter EkkoPlatformTests`
+- [x] Conforms to `FileSystemProvider`; all 6 methods delegate to `FileManager`
+- [x] `copy(from:to:)` creates destination parent directories if missing
+- [x] Tests use `FileManager.default.temporaryDirectory` — no permanent side effects; temp dirs cleaned up in `tearDown`
+- [x] Gate passes: `swift test --filter EkkoPlatformTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commits `62c2b30`, `c30a591`, `df982e5`
 
 ---
 
@@ -257,15 +258,16 @@ All phases complete, then:
 **Requirements**: M0-03
 
 **Done when**:
-- [ ] Conforms to `ConfigStore`; each key maps to `<AppSupport>/Ekko/<key>.json`
-- [ ] Creates `Ekko/` directory on first write if missing
-- [ ] `load` returns `nil` (not throw) when key file does not exist
-- [ ] Tests use a temp directory injected via `init(baseURL:)` — never writes to real App Support
-- [ ] Round-trip test: save `BackupSchedule`, load it back, assert equality
-- [ ] Gate passes: `swift test --filter EkkoPlatformTests`
+- [x] Conforms to `ConfigStore`; each key maps to `<AppSupport>/Ekko/<key>.json`
+- [x] Creates `Ekko/` directory on first write if missing
+- [x] `load` returns `nil` (not throw) when key file does not exist
+- [x] Tests use a temp directory injected via `init(baseURL:)` — never writes to real App Support
+- [x] Round-trip test: save `BackupSchedule`, load it back, assert equality
+- [x] Gate passes: `swift test --filter EkkoPlatformTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commits `9fcabbf`, `c30a591`, `df982e5`
 
 ---
 
@@ -277,15 +279,16 @@ All phases complete, then:
 **Requirements**: M0-07, M0-08, M0-09, M0-10
 
 **Done when**:
-- [ ] Plist template matches design schema; contains tokens `__CLI_PATH__`, `__SCHEDULE__`, `__LOG_DIR__`
-- [ ] `register(schedule:)`: reads template, replaces tokens, writes rendered plist to a configurable output path (default: `~/Library/LaunchAgents/io.ekko.agent.plist`), calls `launchctl bootstrap gui/<uid> <plist>`
-- [ ] `unregister()`: calls `launchctl bootout gui/<uid>/io.ekko.agent`, removes plist file
-- [ ] `status()`: runs `launchctl print gui/<uid>/io.ekko.agent`, parses output → returns `.active`, `.inactive`, or `.error`
-- [ ] Unit tests cover: plist token replacement (pure function, no launchctl), output path construction; launchctl calls are behind a `LaunchctlRunner` protocol (injectable mock)
-- [ ] Gate passes: `swift test --filter EkkoPlatformTests`
+- [x] Plist template matches design schema; contains tokens `__CLI_PATH__`, `__SCHEDULE__`, `__LOG_DIR__`
+- [x] `register(schedule:)`: reads template, replaces tokens, writes rendered plist to a configurable output path (default: `~/Library/LaunchAgents/io.ekko.agent.plist`), calls `launchctl bootstrap gui/<uid> <plist>`
+- [x] `unregister()`: calls `launchctl bootout gui/<uid>/io.ekko.agent`, removes plist file
+- [x] `status()`: runs `launchctl print gui/<uid>/io.ekko.agent`, parses output → returns `.active`, `.inactive`, or `.error`
+- [x] Unit tests cover: plist token replacement (pure function, no launchctl), output path construction; launchctl calls are behind a `LaunchctlRunner` protocol (injectable mock)
+- [x] Gate passes: `swift test --filter EkkoPlatformTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commits `36da22b`, `c30a591`, `df982e5`
 
 ---
 
@@ -297,15 +300,16 @@ All phases complete, then:
 **Requirements**: (M3 — scaffolded in M0 so EkkoApp can wire the Settings button)
 
 **Done when**:
-- [ ] `CLIInstaller.cliURL`: resolves `Bundle.main` → `Contents/MacOS/EkkoCLI`; has a testable override via `init(bundleURL:installDir:)`
-- [ ] `install()`: creates `/usr/local/bin/` if missing; creates or overwrites symlink
-- [ ] `uninstall()`: removes symlink; no-ops if not present
-- [ ] `isInstalled`: checks symlink exists and points to a valid path
-- [ ] Tests use temp directories; never touch `/usr/local/bin`
-- [ ] Gate passes: `swift test --filter EkkoPlatformTests`
+- [x] `CLIInstaller.cliURL`: resolves `Bundle.main` → `Contents/MacOS/EkkoCLI`; has a testable override via `init(bundleURL:installDir:)`
+- [x] `install()`: creates `/usr/local/bin/` if missing; creates or overwrites symlink
+- [x] `uninstall()`: removes symlink; no-ops if not present
+- [x] `isInstalled`: checks symlink exists and points to a valid path
+- [x] Tests use temp directories; never touch `/usr/local/bin`
+- [x] Gate passes: `swift test --filter EkkoPlatformTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commits `f34a9e6`, `c30a591`, `df982e5`
 
 ---
 
@@ -317,11 +321,12 @@ All phases complete, then:
 **Requirements**: M0-14
 
 **Done when**:
-- [ ] Conforms to `FeatureFlagProvider`; `isEnabled(_:)` returns `true` for all `Feature` cases
-- [ ] Test asserts all `Feature.allCases` are enabled
-- [ ] Gate passes: `swift test --filter EkkoPlatformTests`
+- [x] Conforms to `FeatureFlagProvider`; `isEnabled(_:)` returns `true` for all `Feature` cases
+- [x] Test asserts all `Feature.allCases` are enabled
+- [x] Gate passes: `swift test --filter EkkoPlatformTests`
 
 **Tests**: unit
+**Status**: complete — commits `0a6dd1f`, `c30a591`, `df982e5`
 **Gate**: quick
 
 ---
