@@ -4,15 +4,16 @@ import Foundation
 
 @Suite("DirectFileSystemProvider")
 struct DirectFileSystemProviderTests {
-    private func makeTemp() -> URL {
-        FileManager.default.temporaryDirectory
+    private func makeTempDir() throws -> URL {
+        let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        return url
     }
 
     @Test("copyCreatesFileAtDestination")
     func copyCreatesFileAtDestination() async throws {
-        let tmp = makeTemp()
-        try FileManager.default.createDirectory(at: tmp, withIntermediateDirectories: true)
+        let tmp = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: tmp) }
 
         let source = tmp.appendingPathComponent("source.txt")
@@ -27,8 +28,7 @@ struct DirectFileSystemProviderTests {
 
     @Test("copyCreatesParentDirectoriesIfMissing")
     func copyCreatesParentDirectoriesIfMissing() async throws {
-        let tmp = makeTemp()
-        try FileManager.default.createDirectory(at: tmp, withIntermediateDirectories: true)
+        let tmp = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: tmp) }
 
         let source = tmp.appendingPathComponent("source.txt")
@@ -46,8 +46,7 @@ struct DirectFileSystemProviderTests {
 
     @Test("contentsOfDirectoryReturnsFiles")
     func contentsOfDirectoryReturnsFiles() async throws {
-        let tmp = makeTemp()
-        try FileManager.default.createDirectory(at: tmp, withIntermediateDirectories: true)
+        let tmp = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: tmp) }
 
         let file1 = tmp.appendingPathComponent("alpha.txt")
@@ -66,8 +65,7 @@ struct DirectFileSystemProviderTests {
 
     @Test("attributesReturnsCorrectValues")
     func attributesReturnsCorrectValues() async throws {
-        let tmp = makeTemp()
-        try FileManager.default.createDirectory(at: tmp, withIntermediateDirectories: true)
+        let tmp = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: tmp) }
 
         let content = Data("known content".utf8)
@@ -83,8 +81,7 @@ struct DirectFileSystemProviderTests {
 
     @Test("attributesOfDirectoryReturnsIsDirectory")
     func attributesOfDirectoryReturnsIsDirectory() async throws {
-        let tmp = makeTemp()
-        try FileManager.default.createDirectory(at: tmp, withIntermediateDirectories: true)
+        let tmp = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: tmp) }
 
         let provider = DirectFileSystemProvider()
@@ -95,7 +92,7 @@ struct DirectFileSystemProviderTests {
 
     @Test("createDirectoryCreatesNestedDir")
     func createDirectoryCreatesNestedDir() async throws {
-        let tmp = makeTemp()
+        let tmp = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: tmp) }
 
         let nested = tmp
@@ -112,8 +109,7 @@ struct DirectFileSystemProviderTests {
 
     @Test("removeItemDeletesFile")
     func removeItemDeletesFile() async throws {
-        let tmp = makeTemp()
-        try FileManager.default.createDirectory(at: tmp, withIntermediateDirectories: true)
+        let tmp = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: tmp) }
 
         let file = tmp.appendingPathComponent("todelete.txt")
@@ -127,8 +123,7 @@ struct DirectFileSystemProviderTests {
 
     @Test("fileExistsReturnsTrueForExistingFile")
     func fileExistsReturnsTrueForExistingFile() async throws {
-        let tmp = makeTemp()
-        try FileManager.default.createDirectory(at: tmp, withIntermediateDirectories: true)
+        let tmp = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: tmp) }
 
         let file = tmp.appendingPathComponent("exists.txt")

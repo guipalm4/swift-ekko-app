@@ -61,6 +61,8 @@ public enum LaunchdError: Error, Equatable {
 /// A `SchedulerProvider` that registers/unregisters a launchd LaunchAgent using a plist template.
 public struct LaunchdScheduler: SchedulerProvider {
 
+    private static let agentLabel = "io.ekko.agent"
+
     // MARK: - Embedded plist template
     //
     // Embedded as a static constant to avoid SPM bundle-resource resolution complexity in tests.
@@ -110,19 +112,12 @@ public struct LaunchdScheduler: SchedulerProvider {
 
     /// Production init — resolves paths from the system.
     public init() {
-        let launchAgentsURL = FileManager.default.urls(
-            for: .libraryDirectory,
-            in: .userDomainMask
-        ).first?.appendingPathComponent("LaunchAgents", isDirectory: true)
-        ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/LaunchAgents")
+        let libURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)
+            .first ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library")
 
-        let logsURL = FileManager.default.urls(
-            for: .libraryDirectory,
-            in: .userDomainMask
-        ).first?.appendingPathComponent("Logs/Ekko", isDirectory: true)
-        ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Logs/Ekko")
-
-        let plistURL = launchAgentsURL.appendingPathComponent("io.ekko.agent.plist")
+        let launchAgentsURL = libURL.appendingPathComponent("LaunchAgents", isDirectory: true)
+        let logsURL = libURL.appendingPathComponent("Logs/Ekko", isDirectory: true)
+        let plistURL = launchAgentsURL.appendingPathComponent("\(LaunchdScheduler.agentLabel).plist")
 
         // Resolve CLI path from the main bundle if available, fall back to a fixed location.
         let cliPath: String
@@ -178,24 +173,15 @@ public struct LaunchdScheduler: SchedulerProvider {
 
     public func unregister() throws {
         let uid = getuid()
-        // Best-effort bootout — ignore errors (agent may already be unloaded).
-        try? runner.run(arguments: [
-            "bootout",
-            "gui/\(uid)/io.ekko.agent"
-        ])
-
-        if FileManager.default.fileExists(atPath: plistOutputURL.path) {
-            try FileManager.default.removeItem(at: plistOutputURL)
-        }
+        // Best-effort bootout — agent may already be unloaded.
+        try? runner.run(arguments: ["bootout", "gui/\(uid)/\(Self.agentLabel)"])
+        try? FileManager.default.removeItem(at: plistOutputURL)
     }
 
     public func status() throws -> SchedulerStatus {
         let uid = getuid()
         do {
-            let output = try runner.run(arguments: [
-                "print",
-                "gui/\(uid)/io.ekko.agent"
-            ])
+            let output = try runner.run(arguments: ["print", "gui/\(uid)/\(Self.agentLabel)"])
             if output.contains("state = running") {
                 return .active(nextFireDate: nil)
             }
@@ -207,7 +193,6 @@ public struct LaunchdScheduler: SchedulerProvider {
 
     // MARK: - Private helpers
 
-    /// Generates the `StartCalendarInterval` XML value fragment for the given interval.
     private func scheduleXML(for interval: BackupSchedule.Interval) -> String {
         switch interval {
         case .hourly:

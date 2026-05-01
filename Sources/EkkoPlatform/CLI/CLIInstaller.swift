@@ -57,30 +57,18 @@ public struct CLIInstaller {
     /// `<installDir>/ekko → bundleURL.path`.
     public func performInstall() throws {
         let fm = FileManager.default
-
-        // Ensure the install directory exists.
-        if !fm.fileExists(atPath: installDir.path) {
-            try fm.createDirectory(at: installDir, withIntermediateDirectories: true)
-        }
-
+        try fm.createDirectory(at: installDir, withIntermediateDirectories: true)
         let linkPath = symlinkPath
-
-        // Remove a stale symlink (or any existing item) before creating a fresh one.
-        if fm.fileExists(atPath: linkPath) || (try? fm.destinationOfSymbolicLink(atPath: linkPath)) != nil {
+        if symlinkExists(at: linkPath) {
             try fm.removeItem(atPath: linkPath)
         }
-
         try fm.createSymbolicLink(atPath: linkPath, withDestinationPath: bundleURL.path)
     }
 
     /// Removes the `<installDir>/ekko` symlink. No-op if it is not present.
     public func performUninstall() throws {
         let linkPath = symlinkPath
-        guard FileManager.default.fileExists(atPath: linkPath)
-                || (try? FileManager.default.destinationOfSymbolicLink(atPath: linkPath)) != nil
-        else {
-            return
-        }
+        guard symlinkExists(at: linkPath) else { return }
         try FileManager.default.removeItem(atPath: linkPath)
     }
 
@@ -88,5 +76,11 @@ public struct CLIInstaller {
 
     private var symlinkPath: String {
         installDir.appendingPathComponent("ekko").path
+    }
+
+    private func symlinkExists(at path: String) -> Bool {
+        let fm = FileManager.default
+        return fm.fileExists(atPath: path)
+            || (try? fm.destinationOfSymbolicLink(atPath: path)) != nil
     }
 }

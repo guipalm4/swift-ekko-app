@@ -48,17 +48,11 @@ struct CLIInstallerTests {
 
     @Test("installCreatesInstallDirIfMissing")
     func installCreatesInstallDirIfMissing() throws {
-        let tempDir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("CLIInstallerTests-\(UUID().uuidString)", isDirectory: true)
-        try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
-        defer { try? FileManager.default.removeItem(at: tempDir) }
+        let f = try makeFixture()
+        defer { try? FileManager.default.removeItem(at: f.tempDir) }
 
-        let fakeBinary = tempDir.appendingPathComponent("EkkaCLI")
-        try "#!/bin/sh\necho ekko".write(to: fakeBinary, atomically: true, encoding: .utf8)
-
-        // installDir does NOT exist yet.
-        let missingInstallDir = tempDir.appendingPathComponent("nonexistent-bin", isDirectory: true)
-        let installer = CLIInstaller(bundleURL: fakeBinary, installDir: missingInstallDir)
+        let missingInstallDir = f.tempDir.appendingPathComponent("nonexistent-bin", isDirectory: true)
+        let installer = CLIInstaller(bundleURL: f.fakeBinary, installDir: missingInstallDir)
 
         try installer.performInstall()
 

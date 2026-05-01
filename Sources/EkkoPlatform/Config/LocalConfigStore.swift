@@ -33,20 +33,16 @@ public struct LocalConfigStore: ConfigStore {
     // MARK: ConfigStore
 
     public func load<T: Codable>(_ type: T.Type, forKey key: String) throws -> T? {
-        let fileURL = url(forKey: key)
-        guard FileManager.default.fileExists(atPath: fileURL.path) else {
-            return nil
-        }
-        let data: Data
         do {
-            data = try Data(contentsOf: fileURL)
+            let data = try Data(contentsOf: url(forKey: key))
+            return try JSONDecoder().decode(type, from: data)
+        } catch let error as NSError
+            where error.domain == NSCocoaErrorDomain && error.code == NSFileReadNoSuchFileError {
+            return nil
+        } catch is DecodingError {
+            throw ConfigError.decodingFailed
         } catch {
             throw ConfigError.storageUnavailable
-        }
-        do {
-            return try JSONDecoder().decode(type, from: data)
-        } catch {
-            throw ConfigError.decodingFailed
         }
     }
 
@@ -69,12 +65,11 @@ public struct LocalConfigStore: ConfigStore {
     }
 
     public func delete(forKey key: String) throws {
-        let fileURL = url(forKey: key)
-        guard FileManager.default.fileExists(atPath: fileURL.path) else {
-            return
-        }
         do {
-            try FileManager.default.removeItem(at: fileURL)
+            try FileManager.default.removeItem(at: url(forKey: key))
+        } catch let error as NSError
+            where error.domain == NSCocoaErrorDomain && error.code == NSFileNoSuchFileError {
+            return
         } catch {
             throw ConfigError.storageUnavailable
         }

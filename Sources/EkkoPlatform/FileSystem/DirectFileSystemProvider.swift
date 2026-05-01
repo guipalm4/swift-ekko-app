@@ -9,10 +9,10 @@ public struct DirectFileSystemProvider: FileSystemProvider {
     }
 
     public func copy(from source: URL, to destination: URL) async throws {
-        let parentDir = destination.deletingLastPathComponent()
-        if !fileManager.fileExists(atPath: parentDir.path) {
-            try fileManager.createDirectory(at: parentDir, withIntermediateDirectories: true)
-        }
+        try fileManager.createDirectory(
+            at: destination.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
         try fileManager.copyItem(at: source, to: destination)
     }
 
