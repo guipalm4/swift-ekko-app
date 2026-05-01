@@ -1,6 +1,6 @@
 import Testing
 import EkkoCore
-@testable import EkkaPlatform
+@testable import EkkoPlatform
 
 @Suite("DefaultFeatureFlagProvider")
 struct DefaultFeatureFlagProviderTests {

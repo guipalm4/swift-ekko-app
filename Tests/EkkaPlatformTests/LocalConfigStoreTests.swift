@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import EkkaPlatform
+@testable import EkkoPlatform
 import EkkoCore
 
 @Suite("LocalConfigStore")

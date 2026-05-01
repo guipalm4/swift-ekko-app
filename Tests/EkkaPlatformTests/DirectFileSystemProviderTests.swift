@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import EkkaPlatform
+@testable import EkkoPlatform
 
 @Suite("DirectFileSystemProvider")
 struct DirectFileSystemProviderTests {
@@ -58,10 +58,10 @@ struct DirectFileSystemProviderTests {
         let provider = DirectFileSystemProvider()
         let contents = try await provider.contents(ofDirectory: tmp)
 
-        // Normalize by standardizing paths before comparing
-        let resultPaths = Set(contents.map { $0.standardized.path })
-        #expect(resultPaths.contains(file1.standardized.path))
-        #expect(resultPaths.contains(file2.standardized.path))
+        // Resolve symlinks (/var → /private/var on macOS) before comparing
+        let resultPaths = Set(contents.map { $0.resolvingSymlinksInPath().path })
+        #expect(resultPaths.contains(file1.resolvingSymlinksInPath().path))
+        #expect(resultPaths.contains(file2.resolvingSymlinksInPath().path))
     }
 
     @Test("attributesReturnsCorrectValues")
