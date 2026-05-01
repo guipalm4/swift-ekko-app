@@ -3,55 +3,61 @@
 **Date:** 2026-05-01
 **Milestone:** M0 — Architecture & Foundation
 **Branch:** `feat/m0-foundation`
-**Next task:** T3 (Phase 2 — first parallel wave)
+**Next task:** T9 (Phase 3 — first parallel wave)
 
 ## Completed ✓
 
-### Specs & Planning (previous session)
-- PROJECT.md, ROADMAP.md, STATE.md (4 architectural decisions locked)
-- `.specs/features/m0-foundation/spec.md` — 21 requirements (M0-01 to M0-21)
-- `.specs/features/m0-foundation/design.md` — exact Swift interfaces, directory structure, launchd schema, data models
-- `.specs/features/m0-foundation/tasks.md` — 17 tasks with DOD, dependencies, gates
-- CLAUDE.md — AI-assisted workflow contract
-- `.specs/project/WORKFLOW.md` — user interaction guide
-- `.claude/napkin.md` — architecture guardrails, skill gates, Swift/macOS gotchas
+### Phase 1 — Scaffold
+- **T1** — Package.swift (5 targets, swift-argument-parser 1.7.1), full directory scaffold. `swift build` ✓. Commit: `3e12032`
+- **T2** — `.specs/codebase/TESTING.md`: gate commands, coverage matrix, mock patterns. Commit: `ea6a0b0`
+- **chore** — `.gitignore`. Commit: `ccc6b24`
 
-### Phase 1 — Scaffold (current session)
-- **T1** — `git init`, branch `feat/m0-foundation`, `Package.swift` (5 targets, `swift-argument-parser` 1.7.1), full directory scaffold. `swift build` ✓. Commit: `3e12032`
-- **T2** — `.specs/codebase/TESTING.md`: gate commands, coverage matrix, mock patterns, parallelism rules. Commit: `ea6a0b0`
-- **chore** — `.gitignore` for Swift/Xcode/macOS artifacts. Commit: `ccc6b24`
+### Phase 2 — EkkoCore protocols + models (parallel, all complete)
+- **T3** — `FileSystemProvider` protocol + `FileAttributes` model + 8 unit tests. Commit: `2b188ef`
+- **T4** — `ConfigStore` protocol + 5 unit tests (round-trip, delete, nil-for-missing). Commit: `2321d31`
+- **T5** — `SchedulerProvider` + `BackupSchedule` (custom Codable for associated-value enum) + `SchedulerStatus` + 7 unit tests. Commit: `59bb4ee`
+- **T6** — `Feature` enum + `FeatureFlagProvider` + `FeatureFlags` (internal `AllEnabledFeatureFlagProvider` default) + 5 unit tests. Commit: `07c4e39`
+- **T7** — `EkkoLogger` (JSON-lines, retention pruning, os_log for .error) + `LogEntry` + `LogLevel` + 4 unit tests. Commit: `3cfe698`
+- **T8** — `EkkoVersion` (`current = "0.1.0"`, `build = "1"`). Commit: `2a34314`
+
+### Docs / chore
+- `chore`: CLAUDE.md build commands updated with `DEVELOPER_DIR=...` prefix (required for Swift Testing)
+- `chore`: EkkaPlatformTests placeholder fixed (removed premature `import Testing`)
+
+**Phase 2 test result: 28 tests, 0 failures**
 
 ## In Progress
 
-Nothing — Phase 1 complete and committed.
+Nothing — Phase 2 complete and committed. Awaiting user approval to start Phase 3.
 
 ## Pending
 
-### Phase 2 — EkkoCore (parallel subagents, T3–T8)
-All independent; depend only on T1 being complete (✓).
+### Phase 3 — EkkaPlatform adapters (parallel, T9–T13)
+Depend on Phase 2 protocols being complete (✓).
 
-| Task | What | Gate |
+| Task | What | Depends on |
 |---|---|---|
-| T3 [P] | `FileSystemProvider` protocol + `FileAttributes` model + tests | quick |
-| T4 [P] | `ConfigStore` protocol + tests | quick |
-| T5 [P] | `SchedulerProvider` + `BackupSchedule` + `SchedulerStatus` + tests | quick |
-| T6 [P] | `Feature` enum + `FeatureFlagProvider` + `FeatureFlags` + tests | quick |
-| T7 [P] | `EkkoLogger` + `LogEntry` + `LogLevel` + tests | quick |
-| T8 [P] | `Version.swift` (`EkkoVersion`) | build |
+| T9 [P] | `DirectFileSystemProvider` + tests | T3 |
+| T10 [P] | `LocalConfigStore` + tests | T4 |
+| T11 [P] | `LaunchdScheduler` + plist template + tests | T5 |
+| T12 [P] | `CLIInstaller` + tests | T1 |
+| T13 [P] | `DefaultFeatureFlagProvider` + tests | T6 |
 
-### Phase 3 — EkkoPlatform (parallel, T9–T13, after Phase 2)
-### Phase 4 — App Shell + CLI (parallel, T14–T15, after Phase 2)
+### Phase 4 — App Shell + CLI entry point (parallel, T14–T15)
 ### Phase 5 — Integration + Verification (sequential, T16–T17)
 
 ## Blockers
 
 None.
 
-## Context
+## Environment Notes
 
-- Branch: `feat/m0-foundation` (3 commits)
-- `swift build`: passing
-- Bundle ID: `io.ekko.app`, launchd label: `io.ekko.agent`
-- Only external dep: `swift-argument-parser` (EkkoCLI only)
-- Distribution: `.dmg` direct, no App Store
-- T14 requires a manual Xcode GUI step (agent will post ⚠️ MANUAL STEP block and wait)
+- **Swift Testing requires Xcode.app** — all gate commands need `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer` prefix. CommandLineTools does not include `Testing.framework` for macOS.
+- Use `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test` for all DOD checks.
+
+## Design Decisions Made in Phase 2
+
+- **EkkoLogger** implemented as instance struct (not purely static) for testability; static `shared` can be added in T16 wiring if needed.
+- **FeatureFlags.provider** uses `any FeatureFlagProvider` existential (Swift 5.7+ syntax); default is internal `AllEnabledFeatureFlagProvider` since EkkoCore cannot import EkkaPlatform. EkkaPlatform's `DefaultFeatureFlagProvider` replaces it at app startup (T16).
+- **MockSchedulerProvider** is a `class` (not struct) because `SchedulerProvider` protocol methods are non-mutating; struct conformance would require `mutating` which the protocol doesn't allow.
+- **BackupSchedule.Interval** uses manual Codable with discriminator key `type` (Swift cannot auto-synthesize Codable for enums with associated values).

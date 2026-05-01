@@ -12,16 +12,18 @@ Specs live in `.specs/`. Read `.specs/project/PROJECT.md`, `ROADMAP.md`, and `ST
 
 ## Build & Test Commands
 
+> **Environment note:** The Swift Testing framework (`import Testing`) requires Xcode.app's Swift toolchain, not CommandLineTools. All `swift test` commands must be prefixed with `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`.
+
 ```bash
 # Build all SPM targets
-swift build
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift build
 
 # Run full test suite (required for all DOD checks)
-swift test
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test
 
 # Run tests for a single target (fast feedback during implementation only)
-swift test --filter EkkoCoreTests
-swift test --filter EkkoPlatformTests
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter EkkoCoreTests
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter EkkaPlatformTests
 
 # Build CLI
 swift build --product EkkoCLI
@@ -124,9 +126,9 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 
 | When | Command | Purpose |
 |---|---|---|
-| During implementation | `swift test --filter <TargetTests>` | Fast feedback loop only |
-| Task DOD check | `swift test` | Catch regressions — mandatory |
-| Phase DOD check | `swift test` | Final confirmation before user review |
+| During implementation | `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter <TargetTests>` | Fast feedback loop only |
+| Task DOD check | `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test` | Catch regressions — mandatory |
+| Phase DOD check | `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test` | Final confirmation before user review |
 
 ---
 

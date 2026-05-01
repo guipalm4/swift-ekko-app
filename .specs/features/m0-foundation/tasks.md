@@ -123,13 +123,14 @@ All phases complete, then:
 **Requirements**: M0-04
 
 **Done when**:
-- [ ] Protocol matches design interface exactly (all 6 methods, `async throws` where specified)
-- [ ] `FileAttributes` is a public struct with `size: Int64`, `modificationDate: Date`, `isDirectory: Bool`
-- [ ] Mock conformance (`MockFileSystemProvider`) written in test file — all methods callable
-- [ ] Gate passes: `swift test --filter EkkoCoreTests`
+- [x] Protocol matches design interface exactly (all 6 methods, `async throws` where specified)
+- [x] `FileAttributes` is a public struct with `size: Int64`, `modificationDate: Date`, `isDirectory: Bool`
+- [x] Mock conformance (`MockFileSystemProvider`) written in test file — all methods callable
+- [x] Gate passes: `swift test --filter EkkoCoreTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commit `2b188ef`
 
 ---
 
@@ -141,13 +142,14 @@ All phases complete, then:
 **Requirements**: M0-05
 
 **Done when**:
-- [ ] Protocol matches design: `load<T: Codable>`, `save<T: Codable>`, `delete(forKey:)` — all throwing
-- [ ] Mock conformance written using in-memory `[String: Data]` dictionary
-- [ ] Round-trip test: save a `Codable` value, load it back, assert equality
-- [ ] Gate passes: `swift test --filter EkkoCoreTests`
+- [x] Protocol matches design: `load<T: Codable>`, `save<T: Codable>`, `delete(forKey:)` — all throwing
+- [x] Mock conformance written using in-memory `[String: Data]` dictionary
+- [x] Round-trip test: save a `Codable` value, load it back, assert equality
+- [x] Gate passes: `swift test --filter EkkoCoreTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commit `2321d31`
 
 ---
 
@@ -159,14 +161,15 @@ All phases complete, then:
 **Requirements**: M0-06
 
 **Done when**:
-- [ ] `SchedulerProvider` protocol: `register(schedule:)`, `unregister()`, `status()` — all throwing
-- [ ] `BackupSchedule` is `Codable`, `Equatable`; `Interval` enum has `.hourly`, `.daily(hour:minute:)`, `.weekly(weekday:hour:minute:)` cases
-- [ ] `SchedulerStatus` enum: `.active(nextFireDate: Date?)`, `.inactive`, `.error(String)`
-- [ ] Mock conformance + tests for all three status cases
-- [ ] Gate passes: `swift test --filter EkkoCoreTests`
+- [x] `SchedulerProvider` protocol: `register(schedule:)`, `unregister()`, `status()` — all throwing
+- [x] `BackupSchedule` is `Codable`, `Equatable`; `Interval` enum has `.hourly`, `.daily(hour:minute:)`, `.weekly(weekday:hour:minute:)` cases
+- [x] `SchedulerStatus` enum: `.active(nextFireDate: Date?)`, `.inactive`, `.error(String)`
+- [x] Mock conformance + tests for all three status cases
+- [x] Gate passes: `swift test --filter EkkoCoreTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commit `59bb4ee`
 
 ---
 
@@ -178,14 +181,15 @@ All phases complete, then:
 **Requirements**: M0-14, M0-15, M0-16
 
 **Done when**:
-- [ ] `Feature` enum has cases: `.scheduling`, `.encryption`, `.restore`, `.cliInstaller`, `.logRetention`, `.backupRetention`; conforms to `String`, `CaseIterable`
-- [ ] `FeatureFlagProvider` protocol: `func isEnabled(_ feature: Feature) -> Bool`
-- [ ] `FeatureFlags` class: static `provider: FeatureFlagProvider` (settable), static `isEnabled(_:)` delegates to provider
-- [ ] Test: inject `TestFeatureFlagProvider` that disables `.encryption`, call `FeatureFlags.isEnabled(.encryption)` → returns `false` without touching production provider
-- [ ] Gate passes: `swift test --filter EkkoCoreTests`
+- [x] `Feature` enum has cases: `.scheduling`, `.encryption`, `.restore`, `.cliInstaller`, `.logRetention`, `.backupRetention`; conforms to `String`, `CaseIterable`
+- [x] `FeatureFlagProvider` protocol: `func isEnabled(_ feature: Feature) -> Bool`
+- [x] `FeatureFlags` class: static `provider: FeatureFlagProvider` (settable), static `isEnabled(_:)` delegates to provider
+- [x] Test: inject `TestFeatureFlagProvider` that disables `.encryption`, call `FeatureFlags.isEnabled(.encryption)` → returns `false` without touching production provider
+- [x] Gate passes: `swift test --filter EkkoCoreTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commit `07c4e39`
 
 ---
 
@@ -197,15 +201,16 @@ All phases complete, then:
 **Requirements**: M0-17, M0-18, M0-19
 
 **Done when**:
-- [ ] `LogLevel`: `.debug`, `.info`, `.warning`, `.error` (String, Codable)
-- [ ] `LogEntry`: `id: UUID`, `timestamp: Date`, `level: LogLevel`, `category: String`, `message: String` (Codable)
-- [ ] `EkkoLogger.log(_:level:category:)` writes JSON-lines to a path from ConfigStore key `"logFilePath"`; defaults to `~/Library/Logs/Ekko/ekko.log` when key absent
-- [ ] Entries older than `retentionDays` (ConfigStore key `"logRetentionDays"`, default 7) are pruned on each write
-- [ ] Test: write 3 entries using mock ConfigStore (in-memory write path), assert JSON-lines file content; test pruning with past timestamps
-- [ ] Gate passes: `swift test --filter EkkoCoreTests`
+- [x] `LogLevel`: `.debug`, `.info`, `.warning`, `.error` (String, Codable)
+- [x] `LogEntry`: `id: UUID`, `timestamp: Date`, `level: LogLevel`, `category: String`, `message: String` (Codable)
+- [x] `EkkoLogger.log(_:level:category:)` writes JSON-lines to a path from ConfigStore key `"logFilePath"`; defaults to `~/Library/Logs/Ekko/ekko.log` when key absent
+- [x] Entries older than `retentionDays` (ConfigStore key `"logRetentionDays"`, default 7) are pruned on each write
+- [x] Test: write 3 entries using mock ConfigStore (in-memory write path), assert JSON-lines file content; test pruning with past timestamps
+- [x] Gate passes: `swift test --filter EkkoCoreTests`
 
 **Tests**: unit
 **Gate**: quick
+**Status**: complete — commit `3cfe698`
 
 ---
 
@@ -217,11 +222,12 @@ All phases complete, then:
 **Requirements**: M0-21
 
 **Done when**:
-- [ ] `public enum EkkoVersion { public static let current = "0.1.0"; public static let build = "1" }`
-- [ ] Gate passes: `swift build --target EkkoCore`
+- [x] `public enum EkkoVersion { public static let current = "0.1.0"; public static let build = "1" }`
+- [x] Gate passes: `swift build --target EkkoCore`
 
 **Tests**: none (trivial constant)
 **Gate**: build
+**Status**: complete — commit `2a34314`
 
 ---
 
