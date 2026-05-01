@@ -22,7 +22,10 @@ let package = Package(
         ),
         .target(
             name: "EkkoPlatform",
-            dependencies: ["EkkoCore"]
+            dependencies: ["EkkoCore"],
+            resources: [
+                .copy("Resources/com.ekko.agent.plist")
+            ]
         ),
         .executableTarget(
             name: "EkkoCLI",
