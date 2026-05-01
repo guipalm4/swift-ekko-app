@@ -1,7 +1,14 @@
 import Foundation
 import os
 
+// EkkoLogger is the sole EkkoCore exception to the no-FileManager rule — the logger
+// IS the I/O primitive and cannot route through FileSystemProvider without circularity.
 public struct EkkoLogger {
+    private enum Key {
+        static let filePath = "logFilePath"
+        static let retentionDays = "logRetentionDays"
+    }
+
     private let configStore: (any ConfigStore)?
 
     public init(configStore: (any ConfigStore)? = nil) {
@@ -28,7 +35,7 @@ public struct EkkoLogger {
     // MARK: - Private
 
     private var logFileURL: URL {
-        if let path = try? configStore?.load(String.self, forKey: "logFilePath") {
+        if let path = try? configStore?.load(String.self, forKey: Key.filePath) {
             return URL(fileURLWithPath: path)
         }
         return FileManager.default.homeDirectoryForCurrentUser
@@ -36,7 +43,7 @@ public struct EkkoLogger {
     }
 
     private var retentionDays: Int {
-        if let days = try? configStore?.load(Int.self, forKey: "logRetentionDays") {
+        if let days = try? configStore?.load(Int.self, forKey: Key.retentionDays) {
             return days
         }
         return 7
@@ -56,8 +63,7 @@ public struct EkkoLogger {
             )
 
             var entries: [LogEntry] = []
-            if FileManager.default.fileExists(atPath: url.path),
-               let data = try? Data(contentsOf: url) {
+            if let data = try? Data(contentsOf: url) {
                 entries = data
                     .split(separator: UInt8(ascii: "\n"), omittingEmptySubsequences: true)
                     .compactMap { try? decoder.decode(LogEntry.self, from: Data($0)) }
@@ -74,7 +80,7 @@ public struct EkkoLogger {
             }
             try output.write(to: url, options: .atomic)
         } catch {
-            // Logging must never crash the caller
+            Logger(subsystem: "io.ekko", category: "logger").error("Log write failed: \(error)")
         }
     }
 }

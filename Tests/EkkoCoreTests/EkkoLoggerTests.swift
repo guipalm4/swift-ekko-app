@@ -2,26 +2,11 @@ import Testing
 import Foundation
 @testable import EkkoCore
 
-final class LoggerConfigStore: ConfigStore {
-    private var storage: [String: Data] = [:]
-
-    init(logFilePath: String, retentionDays: Int = 7) {
-        storage["logFilePath"] = try? JSONEncoder().encode(logFilePath)
-        storage["logRetentionDays"] = try? JSONEncoder().encode(retentionDays)
-    }
-
-    func load<T: Codable>(_ type: T.Type, forKey key: String) throws -> T? {
-        guard let data = storage[key] else { return nil }
-        return try JSONDecoder().decode(type, from: data)
-    }
-
-    func save<T: Codable>(_ value: T, forKey key: String) throws {
-        storage[key] = try JSONEncoder().encode(value)
-    }
-
-    func delete(forKey key: String) throws {
-        storage.removeValue(forKey: key)
-    }
+private func makeLoggerStore(logFilePath: String, retentionDays: Int = 7) throws -> MockConfigStore {
+    let store = MockConfigStore()
+    try store.save(logFilePath, forKey: "logFilePath")
+    try store.save(retentionDays, forKey: "logRetentionDays")
+    return store
 }
 
 private func makeTempLogURL() -> URL {
@@ -30,8 +15,7 @@ private func makeTempLogURL() -> URL {
 }
 
 private func readEntries(from url: URL) throws -> [LogEntry] {
-    guard FileManager.default.fileExists(atPath: url.path) else { return [] }
-    let data = try Data(contentsOf: url)
+    guard let data = try? Data(contentsOf: url) else { return [] }
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .iso8601
     return data
@@ -47,7 +31,7 @@ struct EkkoLoggerTests {
         let url = makeTempLogURL()
         defer { try? FileManager.default.removeItem(at: url) }
 
-        let logger = EkkoLogger(configStore: LoggerConfigStore(logFilePath: url.path))
+        let logger = EkkoLogger(configStore: try makeLoggerStore(logFilePath: url.path))
         logger.log("first", level: .info, category: "test")
         logger.log("second", level: .debug, category: "test")
         logger.log("third", level: .warning, category: "test")
@@ -63,7 +47,7 @@ struct EkkoLoggerTests {
         let url = makeTempLogURL()
         defer { try? FileManager.default.removeItem(at: url) }
 
-        let logger = EkkoLogger(configStore: LoggerConfigStore(logFilePath: url.path))
+        let logger = EkkoLogger(configStore: try makeLoggerStore(logFilePath: url.path))
         logger.log("hello", level: .warning, category: "backup")
 
         let entries = try readEntries(from: url)
@@ -86,7 +70,7 @@ struct EkkoLoggerTests {
         raw.append(UInt8(ascii: "\n"))
         try raw.write(to: url)
 
-        let logger = EkkoLogger(configStore: LoggerConfigStore(logFilePath: url.path, retentionDays: 7))
+        let logger = EkkoLogger(configStore: try makeLoggerStore(logFilePath: url.path, retentionDays: 7))
         logger.log("fresh", level: .info, category: "new")
 
         let entries = try readEntries(from: url)
@@ -99,7 +83,7 @@ struct EkkoLoggerTests {
         let url = makeTempLogURL()
         defer { try? FileManager.default.removeItem(at: url) }
 
-        let logger = EkkoLogger(configStore: LoggerConfigStore(logFilePath: url.path))
+        let logger = EkkoLogger(configStore: try makeLoggerStore(logFilePath: url.path))
         logger.log("critical", level: .error, category: "system")
 
         let entries = try readEntries(from: url)

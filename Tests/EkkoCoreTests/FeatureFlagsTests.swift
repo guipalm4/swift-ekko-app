@@ -6,7 +6,8 @@ struct TestFeatureFlagProvider: FeatureFlagProvider {
     func isEnabled(_ feature: Feature) -> Bool { enabledFeatures.contains(feature) }
 }
 
-@Suite("FeatureFlags")
+// .serialized prevents parallel tests from racing on FeatureFlags.provider global state
+@Suite("FeatureFlags", .serialized)
 struct FeatureFlagsTests {
 
     @Test("isEnabled returns false for a disabled feature")
