@@ -7,7 +7,15 @@ and executes the command directly — no need to rediscover syntax.
 
 ## Phase DOD — Full Verification Sequence
 
-Run this block at the end of every phase before posting the summary to the user:
+```bash
+bash scripts/check.sh          # all gates (includes xcodebuild)
+bash scripts/check.sh --no-app # skip xcodebuild (before T14 exists)
+bash scripts/audit.sh          # naming audit (Ekka* errors)
+```
+
+Exit code 0 = all clear. Exit code 1 = something failed — output shows which gate.
+
+### Manual fallback (if scripts/ not available)
 
 ```bash
 # 1. Full test suite
