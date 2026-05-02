@@ -1,6 +1,5 @@
 import ArgumentParser
 import EkkoCore
-import EkkoPlatform
 
 struct RootCommand: ParsableCommand {
     static let configuration = CommandConfiguration(
