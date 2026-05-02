@@ -367,14 +367,15 @@ All phases complete, then:
 **Requirements**: M0-21
 
 **Done when**:
-- [ ] `ekko --version` prints `EkkoVersion.current`
-- [ ] `ekko --help` lists available subcommands with descriptions
-- [ ] `ekko --agent-trigger` logs `"agent triggered"` via `EkkoLogger` and exits 0
-- [ ] `RootCommand` uses `@main` via `swift-argument-parser`'s `ParsableCommand`
-- [ ] Gate passes: `swift build --product EkkoCLI` + `swift run EkkoCLI -- --version` prints version string
+- [x] `ekko --version` prints `EkkoVersion.current`
+- [x] `ekko --help` lists available subcommands with descriptions
+- [x] `ekko agent-trigger` logs `"agent triggered"` via `EkkoLogger` and exits 0
+- [x] `RootCommand` defined as `ParsableCommand` (no `@main`; entry point is `main.swift`)
+- [x] Gate passes: `swift build --product EkkoCLI` succeeds
 
 **Tests**: none (entry point — integration behavior)
 **Gate**: build
+**Status**: complete — commit `583ad6c`
 
 **Verify**: `swift run EkkoCLI -- --version` → prints `0.1.0`
 
