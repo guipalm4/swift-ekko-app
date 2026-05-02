@@ -156,9 +156,12 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 
 ```
 [ ] All tasks in phase are `complete`
-[ ] swift test (full suite) green
+[ ] swift test (full suite) green — use: bash scripts/check.sh
 [ ] coupling-analysis: zero violations
 [ ] simplify: findings addressed or deferred with justification in STATE.md
+[ ] scripts/ review: any command rewritten from scratch or run 2+ times with adjustments?
+    → yes: add to scripts/ or playbook.md before closing the phase
+    → no:  nothing to do
 [ ] Phase summary posted: tasks done, test count, any spec deviations
 [ ] User has approved before next phase begins
 ```
