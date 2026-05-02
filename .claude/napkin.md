@@ -78,6 +78,18 @@
 5. **[2026-05-01] SPEC_DEVIATION must be flagged in commit message and phase summary**
    Do instead: mark `SPEC_DEVIATION` in commit body, explain in phase summary. Never deviate silently.
 
+6. **[2026-05-01] Run `find Sources -type d | sort` before dispatching any parallel subagents that create source files**
+   Do instead: paste the directory listing verbatim into every agent prompt. SPM target names are case-sensitive (`EkkoPlatform` ≠ `EkkaPlatform`); wrong paths cause full rework cycles.
+
+7. **[2026-05-01] Run `simplify` inline when orchestrator already has the changed files in context (≤10 files)**
+   Do instead: read changed files, apply findings directly in the same turn. Spawn a simplify subagent only for large or cold codebases. Spawning a subagent to re-read files you just wrote wastes tokens.
+
+8. **[2026-05-01] Use `sed -i ''` for edits on files with Unicode characters (e.g. tasks.md with `→` arrows)**
+   Do instead: when the Edit tool fails on a multi-byte character match, fall back to `sed -i ''` for that replacement. Never retry the same Edit call more than once.
+
+9. **[2026-05-01] End every session with a token efficiency retrospective — document root causes as new Workflow Guardrails**
+   Do instead: before closing, identify what caused avoidable token spend (wrong paths, repeated reads, cold-context subagents, retried edits). Add each root cause here so the next session doesn't repeat it.
+
 ## User Directives
 
 1. **[2026-05-01] All development is AI-assisted (Claude Code) — spec every feature before implementing**

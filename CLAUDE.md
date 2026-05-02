@@ -112,13 +112,16 @@ One subagent per task, dispatched simultaneously. Each subagent receives:
 - This file (`CLAUDE.md`)
 - Napkin (`.claude/napkin.md`)
 - TESTING.md (`.specs/codebase/TESTING.md`)
+- **Output of `find Sources/<TargetName> -type d | sort`** — run this before dispatching and paste the result verbatim so agents write to the correct directories (SPM target names are case-sensitive; `EkkaPlatform` ≠ `EkkoPlatform`)
 
 Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md.
+
+**Before dispatching:** always run `find Sources -type d | sort` and include the output in every subagent prompt that creates source files. This is mandatory — path errors from wrong directory names cause full rework cycles.
 
 #### After every phase
 1. Run `swift test` (full suite)
 2. Run `coupling-analysis` skill
-3. Run `simplify` skill
+3. Run `simplify` skill — **inline** (orchestrator reads changed files and applies findings directly) when ≤10 recently-read files are in scope; spawn a subagent only for large or unfamiliar codebases where context is cold
 4. Post phase summary to user (tasks completed, test count, any deviations)
 5. **Wait for user approval before starting the next phase**
 
@@ -198,6 +201,7 @@ Before ending any session with work in progress:
 1. Update `tasks.md` with current statuses (`complete` / `in_progress` / `blocked`)
 2. Update `STATE.md` with any decisions made or blockers found
 3. Create `.specs/HANDOFF.md` via `tlc-spec-driven` session-handoff
+4. **Token efficiency retrospective:** identify what caused unnecessary token spend (wrong paths, repeated reads, avoidable retries, subagent spawning for work the orchestrator already had in context). Add each root cause as a new Workflow Guardrail in `.claude/napkin.md`.
 
 ### Resuming
 
