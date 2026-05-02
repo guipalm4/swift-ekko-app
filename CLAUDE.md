@@ -27,10 +27,10 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter EkkoCoreTests
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter EkkoPlatformTests
 
-# Build CLI
+# Build CLI (run binary directly — swift run does not pass flags correctly to ArgumentParser)
 swift build --product EkkoCLI
-swift run EkkoCLI -- --version
-swift run EkkoCLI -- --help
+.build/debug/EkkoCLI --version
+.build/debug/EkkoCLI --help
 
 # Build app (requires Xcode project in EkkoApp/)
 xcodebuild build -scheme EkkoApp -destination 'platform=macOS'
@@ -121,7 +121,7 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 **Before dispatching:** always run `find Sources -type d | sort` and include the output in every subagent prompt that creates source files. This is mandatory — path errors from wrong directory names cause full rework cycles.
 
 #### After every phase
-1. Run `swift test` (full suite)
+1. Run `bash scripts/check.sh` (full gate suite — never run gates individually)
 2. Run `coupling-analysis` skill
 3. Run `simplify` skill — **inline** (orchestrator reads changed files and applies findings directly) when ≤10 recently-read files are in scope; spawn a subagent only for large or unfamiliar codebases where context is cold
 4. Post phase summary to user (tasks completed, test count, any deviations)
@@ -133,7 +133,7 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 |---|---|---|
 | During implementation | `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter <TargetTests>` | Fast feedback loop only |
 | Task DOD check | `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test` | Catch regressions — mandatory |
-| Phase DOD check | `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test` | Final confirmation before user review |
+| Phase DOD check | `bash scripts/check.sh` | All gates (tests + purity + warnings + xcodebuild + CLI) — **never run individually** |
 
 ---
 
@@ -147,6 +147,7 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 [ ] Zero new compiler warnings introduced
 [ ] grep purity check passes (if task touches EkkoCore)
 [ ] Zero bare string literals in UI/CLI output
+[ ] friction.md updated — bash scripts/log-friction.sh for any friction since last commit
 [ ] Commit created: feat(<milestone>): T<N> — <description> [<req-id>]
 [ ] tasks.md: task status set to `complete`, DOD items marked [x], commit SHA noted
 [ ] HANDOFF.md: updated to reflect completed task and next pending task
@@ -156,7 +157,8 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 
 ```
 [ ] All tasks in phase are `complete`
-[ ] swift test (full suite) green — use: bash scripts/check.sh
+[ ] bash scripts/check.sh exits 0 — ALL gates green (never substitute individual commands)
+    Fallback only if check.sh itself errors: use manual recipes in .claude/playbook.md
 [ ] coupling-analysis: zero violations
 [ ] simplify: findings addressed or deferred with justification in STATE.md
 [ ] friction.md: cat .claude/friction.md → convert any patterns to scripts/ or playbook.md → clear entries
@@ -174,24 +176,23 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 
 File: `.claude/friction.md`
 
-Log an entry **immediately** when any of these occur:
+Log an entry **before your next `git commit`** when any of these occur:
 - Edit tool fails (file externally modified, unicode issue, etc.)
 - A file must be re-read because it changed between reads
 - A shell command needed adjustment after first run (wrong flags, path, output format)
 - A single logical operation required 3+ tool calls to complete
 
-Format:
-```
-[YYYY-MM-DD] [type] description → resolution/action taken
+**Use the script — do not use the Edit tool on friction.md directly (no file read required):**
+```bash
+bash scripts/log-friction.sh <type> "<description → resolution>"
+# Types: edit-fail | unicode | cmd-adjust | multi-step | path-error | repeated-read | other
 ```
 
-Types: `edit-fail` | `unicode` | `cmd-adjust` | `multi-step` | `path-error` | `repeated-read` | `other`
-
-Example entries:
-```
-[2026-05-02] [edit-fail] Edit falhou em tasks.md (→ unicode) → usei Python str.replace()
-[2026-05-02] [cmd-adjust] git add EkkoApp/ incluiu xcuserdata → staged paths explícitos
-[2026-05-02] [path-error] productName = EkkaPlatform em pbxproj → grep Package.swift confirmou EkkoPlatform
+Example:
+```bash
+bash scripts/log-friction.sh edit-fail "Edit failed on tasks.md (unicode) → used Python str.replace()"
+bash scripts/log-friction.sh cmd-adjust "git add EkkoApp/ included xcuserdata → used explicit paths"
+bash scripts/log-friction.sh path-error "productName EkkaPlatform in pbxproj → grep confirmed EkkoPlatform"
 ```
 
 At Phase DOD: `cat .claude/friction.md` → convert recurring patterns to `scripts/` or `playbook.md` → clear the file.
@@ -236,7 +237,9 @@ Before ending any session with work in progress:
 1. Update `tasks.md` with current statuses (`complete` / `in_progress` / `blocked`)
 2. Update `STATE.md` with any decisions made or blockers found
 3. Create `.specs/HANDOFF.md` via `tlc-spec-driven` session-handoff
-4. **Token efficiency retrospective:** identify what caused unnecessary token spend (wrong paths, repeated reads, avoidable retries, subagent spawning for work the orchestrator already had in context). Add each root cause as a new Workflow Guardrail in `.claude/napkin.md`.
+4. **Token efficiency retrospective:** identify what caused unnecessary token spend (wrong paths, repeated reads, avoidable retries, subagent spawning for work the orchestrator already had in context).
+   - **Proven guardrails** (recurred or high-confidence): add to the `## Workflow Guardrails` section of this file (CLAUDE.md) — it is loaded every session and has no size limit.
+   - **Tentative/volatile observations**: add to `.claude/napkin.md` — but napkin has a 10-item limit per category; promote to CLAUDE.md once confirmed.
 
 ### Resuming
 
@@ -277,10 +280,20 @@ Invoke these skills at the specified milestones. Non-negotiable.
 
 ---
 
+## Workflow Guardrails
+
+Proven rules promoted from session retrospectives. Added here because CLAUDE.md loads every session with no size limit.
+
+1. **[2026-05-02] Never use `Write` tool on `EkkoApp/EkkoApp/*.swift` — a hook reverts the file silently.**
+   Use `Edit` tool instead. `Edit` persists correctly on Xcode target source files.
+
+2. **[2026-05-02] Never run Phase DOD gates individually — always `bash scripts/check.sh`.**
+   Running `swift test`, `xcodebuild`, purity check separately skips gates and creates false confidence. `check.sh` runs all gates and exits non-zero on any failure.
+
+---
+
 ## Current State
 
-**Milestone:** M0 — Architecture & Foundation
-**Branch:** `feat/m0-foundation`
-**Tasks:** `.specs/features/m0-foundation/tasks.md`
-**Phase 1 complete:** T1 (scaffold), T2 (TESTING.md)
-**Next:** Phase 2 — T3–T8 (EkkoCore protocols + models, parallel subagents)
+**Milestone:** M1 — Backup Core (not yet started)
+**Previous:** M0 complete — branch `feat/m0-foundation`, PR #1 open
+**Next:** Run `domain-analysis` skill → spec M1 with `tlc-spec-driven` → create branch `feat/m1-backup-core`
