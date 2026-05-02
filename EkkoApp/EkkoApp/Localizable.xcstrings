@@ -1,0 +1,23 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Ekko %@" : {
+      "comment" : "App name and version shown in placeholder window",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekko %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekko %@"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

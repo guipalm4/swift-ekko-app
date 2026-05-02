@@ -1,0 +1,601 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A2B3C4D5E6F1A2B3C4D0003 /* EkkoCore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A2B3C4D5E6F1A2B3C4D0001 /* EkkoCore */; };
+		1A2B3C4D5E6F1A2B3C4D0004 /* EkkoPlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 1A2B3C4D5E6F1A2B3C4D0002 /* EkkoPlatform */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C6E604E22FA615BA00206124 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6E604CC2FA615B700206124 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6E604D32FA615B700206124;
+			remoteInfo = EkkoApp;
+		};
+		C6E604EC2FA615BA00206124 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6E604CC2FA615B700206124 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6E604D32FA615B700206124;
+			remoteInfo = EkkoApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C6E604D42FA615B700206124 /* EkkoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EkkoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6E604E12FA615BA00206124 /* EkkoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EkkoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6E604EB2FA615BA00206124 /* EkkoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EkkoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C6E604D62FA615B700206124 /* EkkoApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EkkoApp;
+			sourceTree = "<group>";
+		};
+		C6E604E42FA615BA00206124 /* EkkoAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EkkoAppTests;
+			sourceTree = "<group>";
+		};
+		C6E604EE2FA615BA00206124 /* EkkoAppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EkkoAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C6E604D12FA615B700206124 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A2B3C4D5E6F1A2B3C4D0003 /* EkkoCore in Frameworks */,
+				1A2B3C4D5E6F1A2B3C4D0004 /* EkkoPlatform in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6E604DE2FA615BA00206124 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6E604E82FA615BA00206124 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C6E604CB2FA615B700206124 = {
+			isa = PBXGroup;
+			children = (
+				C6E604D62FA615B700206124 /* EkkoApp */,
+				C6E604E42FA615BA00206124 /* EkkoAppTests */,
+				C6E604EE2FA615BA00206124 /* EkkoAppUITests */,
+				C6E604D52FA615B700206124 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C6E604D52FA615B700206124 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C6E604D42FA615B700206124 /* EkkoApp.app */,
+				C6E604E12FA615BA00206124 /* EkkoAppTests.xctest */,
+				C6E604EB2FA615BA00206124 /* EkkoAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C6E604D32FA615B700206124 /* EkkoApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6E604F52FA615BA00206124 /* Build configuration list for PBXNativeTarget "EkkoApp" */;
+			buildPhases = (
+				C6E604D02FA615B700206124 /* Sources */,
+				C6E604D12FA615B700206124 /* Frameworks */,
+				C6E604D22FA615B700206124 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C6E604D62FA615B700206124 /* EkkoApp */,
+			);
+			name = EkkoApp;
+			packageProductDependencies = (
+				1A2B3C4D5E6F1A2B3C4D0001 /* EkkoCore */,
+				1A2B3C4D5E6F1A2B3C4D0002 /* EkkoPlatform */,
+			);
+			productName = EkkoApp;
+			productReference = C6E604D42FA615B700206124 /* EkkoApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C6E604E02FA615BA00206124 /* EkkoAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6E604F82FA615BA00206124 /* Build configuration list for PBXNativeTarget "EkkoAppTests" */;
+			buildPhases = (
+				C6E604DD2FA615BA00206124 /* Sources */,
+				C6E604DE2FA615BA00206124 /* Frameworks */,
+				C6E604DF2FA615BA00206124 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C6E604E32FA615BA00206124 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C6E604E42FA615BA00206124 /* EkkoAppTests */,
+			);
+			name = EkkoAppTests;
+			packageProductDependencies = (
+			);
+			productName = EkkoAppTests;
+			productReference = C6E604E12FA615BA00206124 /* EkkoAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C6E604EA2FA615BA00206124 /* EkkoAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6E604FB2FA615BA00206124 /* Build configuration list for PBXNativeTarget "EkkoAppUITests" */;
+			buildPhases = (
+				C6E604E72FA615BA00206124 /* Sources */,
+				C6E604E82FA615BA00206124 /* Frameworks */,
+				C6E604E92FA615BA00206124 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C6E604ED2FA615BA00206124 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C6E604EE2FA615BA00206124 /* EkkoAppUITests */,
+			);
+			name = EkkoAppUITests;
+			packageProductDependencies = (
+			);
+			productName = EkkoAppUITests;
+			productReference = C6E604EB2FA615BA00206124 /* EkkoAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C6E604CC2FA615B700206124 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					C6E604D32FA615B700206124 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					C6E604E02FA615BA00206124 = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = C6E604D32FA615B700206124;
+					};
+					C6E604EA2FA615BA00206124 = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = C6E604D32FA615B700206124;
+					};
+				};
+			};
+			buildConfigurationList = C6E604CF2FA615B700206124 /* Build configuration list for PBXProject "EkkoApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				"pt-BR",
+				Base,
+			);
+			mainGroup = C6E604CB2FA615B700206124;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C6E604FE2FA6160F00206124 /* XCLocalSwiftPackageReference "../../ekko-app" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C6E604D52FA615B700206124 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C6E604D32FA615B700206124 /* EkkoApp */,
+				C6E604E02FA615BA00206124 /* EkkoAppTests */,
+				C6E604EA2FA615BA00206124 /* EkkoAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C6E604D22FA615B700206124 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6E604DF2FA615BA00206124 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6E604E92FA615BA00206124 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C6E604D02FA615B700206124 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6E604DD2FA615BA00206124 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6E604E72FA615BA00206124 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C6E604E32FA615BA00206124 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6E604D32FA615B700206124 /* EkkoApp */;
+			targetProxy = C6E604E22FA615BA00206124 /* PBXContainerItemProxy */;
+		};
+		C6E604ED2FA615BA00206124 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6E604D32FA615B700206124 /* EkkoApp */;
+			targetProxy = C6E604EC2FA615BA00206124 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C6E604F32FA615BA00206124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C6E604F42FA615BA00206124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		C6E604F62FA615BA00206124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekko.app.EkkoApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C6E604F72FA615BA00206124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekko.app.EkkoApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C6E604F92FA615BA00206124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekko.app.EkkoAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EkkoApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EkkoApp";
+			};
+			name = Debug;
+		};
+		C6E604FA2FA615BA00206124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekko.app.EkkoAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EkkoApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EkkoApp";
+			};
+			name = Release;
+		};
+		C6E604FC2FA615BA00206124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekko.app.EkkoAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = EkkoApp;
+			};
+			name = Debug;
+		};
+		C6E604FD2FA615BA00206124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekko.app.EkkoAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = EkkoApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C6E604CF2FA615B700206124 /* Build configuration list for PBXProject "EkkoApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6E604F32FA615BA00206124 /* Debug */,
+				C6E604F42FA615BA00206124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6E604F52FA615BA00206124 /* Build configuration list for PBXNativeTarget "EkkoApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6E604F62FA615BA00206124 /* Debug */,
+				C6E604F72FA615BA00206124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6E604F82FA615BA00206124 /* Build configuration list for PBXNativeTarget "EkkoAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6E604F92FA615BA00206124 /* Debug */,
+				C6E604FA2FA615BA00206124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6E604FB2FA615BA00206124 /* Build configuration list for PBXNativeTarget "EkkoAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6E604FC2FA615BA00206124 /* Debug */,
+				C6E604FD2FA615BA00206124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		C6E604FE2FA6160F00206124 /* XCLocalSwiftPackageReference "../../ekko-app" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../ekko-app";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1A2B3C4D5E6F1A2B3C4D0001 /* EkkoCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6E604FE2FA6160F00206124 /* XCLocalSwiftPackageReference "../../ekko-app" */;
+			productName = EkkoCore;
+		};
+		1A2B3C4D5E6F1A2B3C4D0002 /* EkkoPlatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6E604FE2FA6160F00206124 /* XCLocalSwiftPackageReference "../../ekko-app" */;
+			productName = EkkoPlatform;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C6E604CC2FA615B700206124 /* Project object */;
+}
