@@ -147,6 +147,7 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 [ ] Zero new compiler warnings introduced
 [ ] grep purity check passes (if task touches EkkoCore)
 [ ] Zero bare string literals in UI/CLI output
+[ ] friction.md updated — bash scripts/log-friction.sh for any friction since last commit
 [ ] Commit created: feat(<milestone>): T<N> — <description> [<req-id>]
 [ ] tasks.md: task status set to `complete`, DOD items marked [x], commit SHA noted
 [ ] HANDOFF.md: updated to reflect completed task and next pending task
@@ -175,24 +176,23 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 
 File: `.claude/friction.md`
 
-Log an entry **immediately** when any of these occur:
+Log an entry **before your next `git commit`** when any of these occur:
 - Edit tool fails (file externally modified, unicode issue, etc.)
 - A file must be re-read because it changed between reads
 - A shell command needed adjustment after first run (wrong flags, path, output format)
 - A single logical operation required 3+ tool calls to complete
 
-Format:
-```
-[YYYY-MM-DD] [type] description → resolution/action taken
+**Use the script — do not use the Edit tool on friction.md directly (no file read required):**
+```bash
+bash scripts/log-friction.sh <type> "<description → resolution>"
+# Types: edit-fail | unicode | cmd-adjust | multi-step | path-error | repeated-read | other
 ```
 
-Types: `edit-fail` | `unicode` | `cmd-adjust` | `multi-step` | `path-error` | `repeated-read` | `other`
-
-Example entries:
-```
-[2026-05-02] [edit-fail] Edit falhou em tasks.md (→ unicode) → usei Python str.replace()
-[2026-05-02] [cmd-adjust] git add EkkoApp/ incluiu xcuserdata → staged paths explícitos
-[2026-05-02] [path-error] productName = EkkaPlatform em pbxproj → grep Package.swift confirmou EkkoPlatform
+Example:
+```bash
+bash scripts/log-friction.sh edit-fail "Edit failed on tasks.md (unicode) → used Python str.replace()"
+bash scripts/log-friction.sh cmd-adjust "git add EkkoApp/ included xcuserdata → used explicit paths"
+bash scripts/log-friction.sh path-error "productName EkkaPlatform in pbxproj → grep confirmed EkkoPlatform"
 ```
 
 At Phase DOD: `cat .claude/friction.md` → convert recurring patterns to `scripts/` or `playbook.md` → clear the file.
