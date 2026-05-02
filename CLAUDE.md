@@ -295,5 +295,9 @@ Proven rules promoted from session retrospectives. Added here because CLAUDE.md 
 ## Current State
 
 **Milestone:** M1 — Backup Core (not yet started)
-**Previous:** M0 complete — branch `feat/m0-foundation`, PR #1 open
-**Next:** Run `domain-analysis` skill → spec M1 with `tlc-spec-driven` → create branch `feat/m1-backup-core`
+**Previous:** M0 complete — merged to `main` (PR #1, PR #2)
+**Next session:**
+1. Run `domain-analysis` skill — map backup domain (Source, Destination, Snapshot, BackupRun, RestorePoint) before writing any spec
+2. Run `tlc-spec-driven` — spec M1 in full (spec → design → tasks)
+3. Run `interface-design:init` — before first SwiftUI screen (establishes macOS HIG design system)
+4. Create branch `feat/m1-backup-core` only after tasks.md is approved
