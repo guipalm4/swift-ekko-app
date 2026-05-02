@@ -8,6 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Specs live in `.specs/`. Read `.specs/project/PROJECT.md`, `ROADMAP.md`, and `STATE.md` at the start of every session. Read `.claude/napkin.md` and apply it silently.
 
+Before writing any build command, git operation, or file-edit script from scratch, check `.claude/playbook.md` — it contains verified recipes for recurring operations (build/test, pbxproj edits, unicode-safe file editing, git staging, naming audits).
+
 ---
 
 ## Build & Test Commands
