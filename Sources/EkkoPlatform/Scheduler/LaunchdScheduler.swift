@@ -68,14 +68,15 @@ public struct LaunchdScheduler: SchedulerProvider {
     // Embedded as a static constant to avoid SPM bundle-resource resolution complexity in tests.
     // The file at Sources/EkkoPlatform/Resources/com.ekko.agent.plist mirrors this content and
     // is declared as a `.copy` resource in Package.swift for reference / distribution purposes.
-    static let plistTemplate: String = """
+    static var plistTemplate: String {
+        """
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
             "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
         <plist version="1.0">
         <dict>
             <key>Label</key>
-            <string>io.ekko.agent</string>
+            <string>\(agentLabel)</string>
 
             <key>ProgramArguments</key>
             <array>
@@ -100,6 +101,7 @@ public struct LaunchdScheduler: SchedulerProvider {
         </dict>
         </plist>
         """
+    }
 
     // MARK: - Properties
 
