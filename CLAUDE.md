@@ -23,7 +23,7 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test
 
 # Run tests for a single target (fast feedback during implementation only)
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter EkkoCoreTests
-DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter EkkaPlatformTests
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --filter EkkoPlatformTests
 
 # Build CLI
 swift build --product EkkoCLI
@@ -234,7 +234,7 @@ Invoke these skills at the specified milestones. Non-negotiable.
 
 | Trigger | Skill | Purpose |
 |---|---|---|
-| After every implementation phase | `coupling-analysis` | Verify EkkoCore ↔ EkkaPlatform boundary |
+| After every implementation phase | `coupling-analysis` | Verify EkkoCore ↔ EkkoPlatform boundary |
 | After every implementation phase | `simplify` | Code quality and reuse review |
 | Before first SwiftUI screen (M1) | `interface-design:init` | Establish macOS HIG design system |
 | Before M2 merges | `security-review` | Encryption, file access, launchd surface |

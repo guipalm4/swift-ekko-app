@@ -26,7 +26,7 @@
 ## Skills Gates
 
 1. **[2026-05-01] Run `coupling-analysis` after each implementation phase (M0 Phase 2, 3, 4 and each milestone)**
-   Do instead: invoke skill → analyze EkkoCore ↔ EkkaPlatform boundary. Any violation blocks the phase from completing.
+   Do instead: invoke skill → analyze EkkoCore ↔ EkkoPlatform boundary. Any violation blocks the phase from completing.
 
 2. **[2026-05-01] Run `interface-design:init` before the first SwiftUI screen in M1**
    Do instead: establish macOS design system (HIG conventions, accent colors, Dark Mode, typography) before any component. Retrofitting is expensive.

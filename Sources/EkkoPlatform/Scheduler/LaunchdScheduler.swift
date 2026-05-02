@@ -122,7 +122,7 @@ public struct LaunchdScheduler: SchedulerProvider {
         // Resolve CLI path from the main bundle if available, fall back to a fixed location.
         let cliPath: String
         if let bundlePath = Bundle.main.executableURL?.deletingLastPathComponent()
-            .appendingPathComponent("EkkaCLI").path,
+            .appendingPathComponent("EkkoCLI").path,
            FileManager.default.fileExists(atPath: bundlePath) {
             cliPath = bundlePath
         } else {

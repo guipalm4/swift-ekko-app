@@ -1,5 +1,5 @@
-// Internal default — all flags ON. EkkaPlatform.DefaultFeatureFlagProvider replaces
-// this at app startup (T16), keeping EkkoCore free of EkkaPlatform references.
+// Internal default — all flags ON. EkkoPlatform.DefaultFeatureFlagProvider replaces
+// this at app startup (T16), keeping EkkoCore free of EkkoPlatform references.
 struct AllEnabledFeatureFlagProvider: FeatureFlagProvider {
     func isEnabled(_ feature: Feature) -> Bool { true }
 }

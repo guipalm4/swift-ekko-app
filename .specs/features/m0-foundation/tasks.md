@@ -76,7 +76,7 @@ All phases complete, then:
 
 ### T1: Package.swift + source directory scaffold
 
-**What**: Create `Package.swift` defining EkkoCore, EkkoPlatform, EkkaCLI targets and their test targets. Create all `Sources/` and `Tests/` directories with `.gitkeep` placeholders.
+**What**: Create `Package.swift` defining EkkoCore, EkkoPlatform, EkkoCLI targets and their test targets. Create all `Sources/` and `Tests/` directories with `.gitkeep` placeholders.
 **Where**: `Package.swift`, `Sources/`, `Tests/`
 **Depends on**: None
 **Reuses**: Nothing
@@ -360,7 +360,7 @@ All phases complete, then:
 
 ---
 
-### T15: EkkaCLI entry point [P]
+### T15: EkkoCLI entry point [P]
 
 **What**: Implement `main.swift` and the root command with `--version`, `--help`, and `--agent-trigger` subcommands using `swift-argument-parser`.
 **Where**: `Sources/EkkoCLI/main.swift`, `Sources/EkkoCLI/Commands/RootCommand.swift`, `Sources/EkkoCLI/Commands/AgentTriggerCommand.swift`

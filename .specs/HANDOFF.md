@@ -21,7 +21,7 @@
 
 **Phase 2 test result: 28 tests, 0 failures**
 
-### Phase 3 — EkkaPlatform adapters (parallel, all complete)
+### Phase 3 — EkkoPlatform adapters (parallel, all complete)
 - **T9** — `DirectFileSystemProvider` + 9 unit tests. Commit: `62c2b30`
 - **T10** — `LocalConfigStore` + 5 unit tests. Commit: `9fcabbf`
 - **T11** — `LaunchdScheduler` + plist template + `LaunchctlRunner` protocol + 6 unit tests. Updated `Package.swift` with resources. Commit: `36da22b`
@@ -48,7 +48,7 @@ Nothing — Phase 3 complete. Awaiting user approval to start Phase 4.
 | Task | What | Depends on |
 |---|---|---|
 | T14 [P] | EkkoApp Xcode project + placeholder UI | T1, T8 — **requires manual Xcode GUI step** |
-| T15 [P] | EkkaCLI entry point (main.swift + RootCommand + AgentTriggerCommand) | T1, T8 |
+| T15 [P] | EkkoCLI entry point (main.swift + RootCommand + AgentTriggerCommand) | T1, T8 |
 
 ### Phase 5 — Integration + Verification (sequential, T16–T17)
 

@@ -39,7 +39,7 @@ let package = Package(
             dependencies: ["EkkoCore"]
         ),
         .testTarget(
-            name: "EkkaPlatformTests",
+            name: "EkkoPlatformTests",
             dependencies: ["EkkoPlatform"]
         ),
     ]

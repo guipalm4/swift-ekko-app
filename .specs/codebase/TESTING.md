@@ -27,7 +27,7 @@ Swift Testing (`import Testing`, `#expect`, `#require`). Requires Xcode 16+ / Sw
 | EkkoCore models | `EkkoCoreTests` | Unit | Codable round-trip + equality |
 | EkkoCore feature flags | `EkkoCoreTests` | Unit | Injectable `TestFeatureFlagProvider` |
 | EkkoCore logger | `EkkoCoreTests` | Unit | Mock `ConfigStore` with in-memory write path |
-| EkkaPlatform adapters | `EkkaPlatformTests` | Unit | Temp directories via `FileManager.default.temporaryDirectory`; cleaned up in teardown |
+| EkkoPlatform adapters | `EkkoPlatformTests` | Unit | Temp directories via `FileManager.default.temporaryDirectory`; cleaned up in teardown |
 | CLI commands | N/A | Integration (manual) | Entry point — verified via `swift run EkkoCLI -- --version` |
 | App UI | N/A | Manual | No automated UI tests in M0 |
 
@@ -35,7 +35,7 @@ Swift Testing (`import Testing`, `#expect`, `#require`). Requires Xcode 16+ / Sw
 
 ## Parallelism
 
-Unit tests in `EkkoCoreTests` and `EkkaPlatformTests` are **parallel-safe** — each test uses its own in-memory or temp-directory state. No shared global mutable state.
+Unit tests in `EkkoCoreTests` and `EkkoPlatformTests` are **parallel-safe** — each test uses its own in-memory or temp-directory state. No shared global mutable state.
 
 Tests that touch the live filesystem (e.g., `DirectFileSystemProvider`) use `FileManager.default.temporaryDirectory` and clean up in teardown. They do not write to `~/Library/` or `/usr/local/bin`.
 
@@ -51,4 +51,4 @@ Tests that call `launchctl` are behind a `LaunchctlRunner` protocol with an inje
 | `ConfigStore` | `MockConfigStore` | `Tests/EkkoCoreTests/ConfigStoreTests.swift` |
 | `SchedulerProvider` | `MockSchedulerProvider` | `Tests/EkkoCoreTests/SchedulerProviderTests.swift` |
 | `FeatureFlagProvider` | `TestFeatureFlagProvider` | `Tests/EkkoCoreTests/FeatureFlagsTests.swift` |
-| `LaunchctlRunner` | `MockLaunchctlRunner` | `Tests/EkkaPlatformTests/LaunchdSchedulerTests.swift` |
+| `LaunchctlRunner` | `MockLaunchctlRunner` | `Tests/EkkoPlatformTests/LaunchdSchedulerTests.swift` |

@@ -17,7 +17,7 @@ public struct CLIInstaller {
     public init() {
         self.init(
             bundleURL: Bundle.main.bundleURL
-                .appendingPathComponent("Contents/MacOS/EkkaCLI"),
+                .appendingPathComponent("Contents/MacOS/EkkoCLI"),
             installDir: URL(fileURLWithPath: "/usr/local/bin")
         )
     }

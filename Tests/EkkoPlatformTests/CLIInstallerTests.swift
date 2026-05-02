@@ -21,7 +21,7 @@ struct CLIInstallerTests {
         try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
 
         // Fake CLI binary so checkInstalled() can confirm the symlink destination exists.
-        let fakeBinary = tempDir.appendingPathComponent("EkkaCLI")
+        let fakeBinary = tempDir.appendingPathComponent("EkkoCLI")
         try "#!/bin/sh\necho ekko".write(to: fakeBinary, atomically: true, encoding: .utf8)
 
         // Separate subdirectory as the install target, mirroring /usr/local/bin.
