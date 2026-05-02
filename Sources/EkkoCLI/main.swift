@@ -1,2 +1,3 @@
-import Foundation
-// EkkoCLI entry point — implemented in T15
+import ArgumentParser
+
+RootCommand.main()
