@@ -159,12 +159,41 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 [ ] swift test (full suite) green — use: bash scripts/check.sh
 [ ] coupling-analysis: zero violations
 [ ] simplify: findings addressed or deferred with justification in STATE.md
+[ ] friction.md: cat .claude/friction.md → convert any patterns to scripts/ or playbook.md → clear entries
 [ ] scripts/ review: any command rewritten from scratch or run 2+ times with adjustments?
     → yes: add to scripts/ or playbook.md before closing the phase
     → no:  nothing to do
 [ ] Phase summary posted: tasks done, test count, any spec deviations
 [ ] User has approved before next phase begins
 ```
+
+---
+
+## Friction Logging
+
+File: `.claude/friction.md`
+
+Log an entry **immediately** when any of these occur:
+- Edit tool fails (file externally modified, unicode issue, etc.)
+- A file must be re-read because it changed between reads
+- A shell command needed adjustment after first run (wrong flags, path, output format)
+- A single logical operation required 3+ tool calls to complete
+
+Format:
+```
+[YYYY-MM-DD] [type] description → resolution/action taken
+```
+
+Types: `edit-fail` | `unicode` | `cmd-adjust` | `multi-step` | `path-error` | `repeated-read` | `other`
+
+Example entries:
+```
+[2026-05-02] [edit-fail] Edit falhou em tasks.md (→ unicode) → usei Python str.replace()
+[2026-05-02] [cmd-adjust] git add EkkoApp/ incluiu xcuserdata → staged paths explícitos
+[2026-05-02] [path-error] productName = EkkaPlatform em pbxproj → grep Package.swift confirmou EkkoPlatform
+```
+
+At Phase DOD: `cat .claude/friction.md` → convert recurring patterns to `scripts/` or `playbook.md` → clear the file.
 
 ---
 
