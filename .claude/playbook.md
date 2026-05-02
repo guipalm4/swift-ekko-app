@@ -5,6 +5,37 @@ and executes the command directly — no need to rediscover syntax.
 
 ---
 
+## Phase DOD — Full Verification Sequence
+
+Run this block at the end of every phase before posting the summary to the user:
+
+```bash
+# 1. Full test suite
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test 2>&1 | tail -3
+
+# 2. Architecture purity (must return zero lines)
+grep -r "import AppKit\|import SwiftUI\|import ServiceManagement" Sources/EkkoCore/
+
+# 3. Compiler warnings (must be zero new ones)
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift build 2>&1 | grep "warning:"
+
+# 4. EkkoApp build (only after T14 exists)
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  xcodebuild build -scheme EkkoApp -destination 'platform=macOS' \
+  -project EkkoApp/EkkoApp.xcodeproj 2>&1 | grep -E "error:|BUILD SUCCEEDED|BUILD FAILED"
+
+# 5. CLI smoke test
+.build/debug/EkkoCLI --version
+```
+
+### Extract test count (for phase summary)
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test 2>&1 | grep "Test run with"
+# Output: "Test run with 57 tests in 10 suites passed after 0.013 seconds."
+```
+
+---
+
 ## Build & Test
 
 ### Full test suite (mandatory for DOD)
@@ -47,6 +78,69 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 ```bash
 grep -E "\.library|\.executable|\.target|\.testTarget|\.executableTarget" \
   /Users/guipalm4/Dev/Projects/Personal/swift/ekko-app/Package.swift
+```
+
+---
+
+## i18n Compliance Check
+
+### Find bare string literals in Swift UI/CLI code (must return zero)
+```bash
+# Checks for string literals passed directly to Text(), print(), etc.
+# Excludes: comments, test files, string keys (single words), version strings
+grep -rn '"\([A-Z][a-z]\|[a-z][a-z]\)' Sources/EkkoApp/ Sources/EkkoCLI/ \
+  | grep -v "//.*\"" \
+  | grep -v 'String(localized:' \
+  | grep -v 'bundle:' \
+  | grep -v '\.module'
+```
+> If this returns results, each one needs to be wrapped in `String(localized: "key")` or `Text("key")` (SwiftUI auto-localizes `Text` string literals via `LocalizedStringKey`).
+
+---
+
+## SPM Introspection
+
+### List all targets and products quickly
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift package describe --type json \
+  | python3 -c "import json,sys; p=json.load(sys.stdin); [print(t['name']) for t in p['targets']]"
+```
+
+### Clean build (when incremental gives false positives)
+```bash
+rm -rf .build && DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift build
+```
+
+### Check active Swift toolchain
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift --version
+```
+
+---
+
+## Xcode / pbxproj Utilities
+
+### Generate a fresh UUID for pbxproj entries
+```bash
+uuidgen | tr -d '-' | cut -c1-24 | tr '[:lower:]' '[:upper:]'
+# Example output: 3F8A2C1D4E9B0F5A7C2E1D8B
+# Generate 4 at once (one per object):
+for i in 1 2 3 4; do uuidgen | tr -d '-' | cut -c1-24 | tr '[:lower:]' '[:upper:]'; done
+```
+
+---
+
+## Code Quality Checks
+
+### Find TODO/FIXME/HACK in source (review before phase close)
+```bash
+grep -rn "TODO\|FIXME\|HACK\|SPEC_DEVIATION" Sources/ Tests/ \
+  | grep -v ".build/"
+```
+
+### Find SPEC_DEVIATION commits (for phase summary)
+```bash
+git log --oneline --grep="SPEC_DEVIATION"
 ```
 
 ---
