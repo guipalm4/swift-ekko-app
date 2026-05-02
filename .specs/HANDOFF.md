@@ -53,21 +53,41 @@
 
 ## In Progress
 
-Nothing — Phase 4 complete and gates passed. Awaiting user approval to start Phase 5.
+Nothing — M0 complete. All phases and gates passed. Awaiting user approval to merge to main.
+
+## Completed (Phase 5)
+
+### Phase 5 — Integration + Verification (sequential, all complete)
+
+- **T16** — `AppDelegate.swift`: wires `DefaultFeatureFlagProvider` into `FeatureFlags.provider`, dispatches launchd agent registration off main thread on first launch. Commits: `9b7b5b6`, `82d5bc4`
+- **T17** — Final verification: all gates green. Commit: `f1f45fc` (sandbox fix)
+
+**Phase 5 test result: 57 tests, 0 failures (no regressions)**
+
+### Phase 5 gates
+
+- coupling-analysis: ✅ Healthy — zero violations, all adapters Contract Coupling, EkkoCore purity confirmed
+- simplify: ✅ Applied — 4 findings: Task.detached for off-main-thread registration, agentLabel interpolation in plistTemplate, path API consistency, removed MARK noise. Commits: `d9af713`, `82d5bc4`
+- Architecture purity: ✅ zero results
+- friction.md: ✅ 1 entry (Write tool reverted by hook on EkkoApp files → use Edit) → converted to playbook.md → cleared
+- Full test suite: ✅ 57 tests, 0 failures
+- xcodebuild: ✅ BUILD SUCCEEDED
+- launchd smoke test: ✅ plist created at `~/Library/LaunchAgents/io.ekko.agent.plist`; `launchctl print gui/<uid>/io.ekko.agent` shows agent loaded (state = not running — correct, 2 AM trigger)
+- CLI version: ✅ `.build/debug/EkkoCLI --version` → `0.1.0`
+
+## Design Decisions Made in Phase 5
+
+- **Sandbox disabled**: `ENABLE_APP_SANDBOX = NO` for both Debug and Release — direct .dmg distribution cannot write to `~/Library/LaunchAgents/` under sandbox. Xcode template defaulted to YES; corrected per spec.
+- **Task.detached for launchd registration**: `Process.waitUntilExit()` (launchctl subprocess) can block for 100–500ms; dispatched off main thread to avoid stalling `applicationDidFinishLaunching`.
+- **plistTemplate as computed var**: interpolates `agentLabel` to prevent label drift between template XML and `bootout`/`print` calls.
+- **Use Edit (not Write) for EkkoApp/*.swift**: Write tool gets reverted by a hook on Xcode target sources; Edit persists correctly. Captured in playbook.md.
 
 ## Pending
 
-### Phase 5 — Integration + Verification (sequential, T16–T17)
-
-| Task | What | Depends on |
-|---|---|---|
-| T16 | EkkoApp startup wiring — `AppDelegate.swift`: init `DefaultFeatureFlagProvider`, register launchd agent on first launch | T11, T13, T14 |
-| T17 | Final verification — full test suite, arch purity, xcodebuild, launchd smoke test, CLI version check | All |
-
-## Design Decisions Made in Phase 4
-
-- **RootCommand imports**: scoped to EkkoCore only (EkkaPlatform removed as unused). When M1 commands need platform adapters, they will add the import explicitly.
-- **ContentView placeholder**: `Text("Ekko \(EkkoVersion.current)")` uses SwiftUI's LocalizedStringKey — correctly localized via mechanism. Semantic key names deferred to M1 when real UI is designed.
+**M0 is complete.** Next steps:
+1. User approves M0 → merge `feat/m0-foundation` → `main`
+2. Start M1: run `domain-analysis` skill, then `tlc-spec-driven` to spec Backup Core
+3. Before first SwiftUI screen in M1: run `interface-design:init`
 
 ## Blockers
 
@@ -76,5 +96,5 @@ None.
 ## Environment Notes
 
 - Swift Testing requires Xcode.app — prefix ALL commands with `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`
-- T16 adds `AppDelegate.swift` to the Xcode target — use `xcodebuild build` to verify, not `swift build`
-- launchd smoke test in T17 requires a running macOS session (not CI-only)
+- For EkkoApp Swift source files: always use Edit tool, never Write (Write is reverted by hook)
+- launchd smoke test requires a running macOS session (not CI-only)

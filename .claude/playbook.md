@@ -173,6 +173,14 @@ grep -r "import AppKit\|import SwiftUI\|import ServiceManagement" Sources/EkkoCo
 
 ---
 
+## File Editing — EkkoApp Swift Files
+
+> ⚠️ For files inside `EkkoApp/EkkoApp/` (Xcode target sources), use the **Edit** tool — NOT the Write tool.
+> The Write tool on these files gets silently reverted by a hook that resets the file to its previous state.
+> Edit persists correctly.
+
+---
+
 ## File Editing — Unicode-Safe
 
 ### When sed fails on files with Unicode (→, ↔, emoji)

@@ -390,13 +390,14 @@ All phases complete, then:
 **Requirements**: M0-07, M0-08
 
 **Done when**:
-- [ ] `applicationDidFinishLaunching`: sets `FeatureFlags.provider = DefaultFeatureFlagProvider()`
-- [ ] On first launch (no plist at `~/Library/LaunchAgents/io.ekko.agent.plist`): calls `LaunchdScheduler().register(schedule: .init(interval: .daily(hour: 2, minute: 0)))`
-- [ ] Errors from `register()` are caught and logged via `EkkoLogger` — app does not crash
-- [ ] Gate passes: `xcodebuild build -scheme EkkoApp -destination 'platform=macOS'`
+- [x] `applicationDidFinishLaunching`: sets `FeatureFlags.provider = DefaultFeatureFlagProvider()`
+- [x] On first launch (no plist at `~/Library/LaunchAgents/io.ekko.agent.plist`): calls `LaunchdScheduler().register(schedule: .init(interval: .daily(hour: 2, minute: 0)))`
+- [x] Errors from `register()` are caught and logged via `EkkoLogger` — app does not crash
+- [x] Gate passes: `xcodebuild build -scheme EkkoApp -destination 'platform=macOS'`
 
 **Tests**: none (wiring — verified by T17 smoke test)
 **Gate**: app-build
+**Status**: complete — commits `9b7b5b6`, `82d5bc4`
 
 ---
 
@@ -408,15 +409,16 @@ All phases complete, then:
 **Requirements**: All M0 requirements
 
 **Done when**:
-- [ ] `swift test` passes with 0 failures
-- [ ] `grep -r "import AppKit\|import SwiftUI\|import ServiceManagement" Sources/EkkoCore/` → zero results
-- [ ] `xcodebuild build -scheme EkkoApp -destination 'platform=macOS'` exits 0
-- [ ] After launching EkkoApp once: `~/Library/LaunchAgents/io.ekko.agent.plist` exists and contains the correct CLI path
-- [ ] `launchctl print gui/$(id -u)/io.ekko.agent` shows agent as loaded (or exits without "not found" error)
-- [ ] `swift run EkkoCLI -- --version` prints `0.1.0`
+- [x] `swift test` passes with 0 failures
+- [x] `grep -r "import AppKit\|import SwiftUI\|import ServiceManagement" Sources/EkkoCore/` → zero results
+- [x] `xcodebuild build -scheme EkkoApp -destination 'platform=macOS'` exits 0
+- [x] After launching EkkoApp once: `~/Library/LaunchAgents/io.ekko.agent.plist` exists and contains the correct CLI path
+- [x] `launchctl print gui/$(id -u)/io.ekko.agent` shows agent as loaded (or exits without "not found" error)
+- [x] `swift run EkkoCLI -- --version` prints `0.1.0`
 
 **Tests**: full
 **Gate**: full
+**Status**: complete — commits `f1f45fc`, `d9af713`
 
 ---
 
