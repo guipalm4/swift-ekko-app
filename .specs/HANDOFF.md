@@ -1,15 +1,17 @@
 # Handoff
 
-**Date:** 2026-05-01
+**Date:** 2026-05-02
 **Milestone:** M0 — Architecture & Foundation
 **Branch:** `feat/m0-foundation`
-**Next task:** T14 + T15 (Phase 4 — parallel)
+**Next task:** T16 (Phase 5 — sequential)
 
 ## Completed ✓
 
 ### Phase 1 — Scaffold
 - **T1** — Package.swift (5 targets, swift-argument-parser 1.7.1), full directory scaffold. Commit: `3e12032`
 - **T2** — `.specs/codebase/TESTING.md`. Commit: `ea6a0b0`
+
+**Phase 1 test result: build only**
 
 ### Phase 2 — EkkoCore protocols + models (parallel, all complete)
 - **T3** — `FileSystemProvider` + `FileAttributes` + 8 unit tests. Commit: `2b188ef`
@@ -24,40 +26,48 @@
 ### Phase 3 — EkkoPlatform adapters (parallel, all complete)
 - **T9** — `DirectFileSystemProvider` + 9 unit tests. Commit: `62c2b30`
 - **T10** — `LocalConfigStore` + 5 unit tests. Commit: `9fcabbf`
-- **T11** — `LaunchdScheduler` + plist template + `LaunchctlRunner` protocol + 6 unit tests. Updated `Package.swift` with resources. Commit: `36da22b`
+- **T11** — `LaunchdScheduler` + plist template + `LaunchctlRunner` protocol + 6 unit tests. Commit: `36da22b`
 - **T12** — `CLIInstaller` + 7 unit tests. Commit: `f34a9e6`
 - **T13** — `DefaultFeatureFlagProvider` + 2 unit tests. Commit: `0a6dd1f`
-- **fix** — corrected module name `EkkaPlatform→EkkoPlatform` in test imports, moved sources from wrong dir, fixed `/var→/private/var` symlink in test. Commit: `c30a591`
-- **simplify** — extracted `agentLabel` constant, hoisted single `libraryURL`, fixed 5 TOCTOU patterns, `makeTempDir()` helper, `symlinkExists()` helper. Commit: `df982e5`
+- **fix** — corrected module name `EkkaPlatform→EkkoPlatform` in test imports, moved sources, fixed `/var→/private/var`. Commit: `c30a591`
+- **simplify** — extracted `agentLabel`, hoisted `libraryURL`, fixed 5 TOCTOU patterns, `makeTempDir()`, `symlinkExists()`. Commit: `df982e5`
 
 **Phase 3 test result: 57 tests, 0 failures**
 
 ### Phase 3 gates
 - coupling-analysis: ✅ Healthy — all adapters use Contract Coupling; EkkoCore purity confirmed
-- simplify: ✅ Applied — 8 findings addressed (TOCTOU, duplication, stringly-typed label, docstring)
-- Architecture purity: ✅ `grep "import AppKit|import SwiftUI|import ServiceManagement" Sources/EkkoCore/` = zero results
+- simplify: ✅ Applied — 8 findings addressed
+- Architecture purity: ✅ zero results
+
+### Phase 4 — App Shell + CLI Entry Point (parallel, all complete)
+- **T14** — EkkoApp Xcode project + placeholder UI (`EkkoAppApp.swift`, `ContentView.swift`, `Localizable.xcstrings`). Commit: `d85effd`
+- **T15** — EkkaCLI entry point (`main.swift`, `RootCommand.swift`, `AgentTriggerCommand.swift`). Commit: `583ad6c`
+
+**Phase 4 test result: 57 tests, 0 failures (no new tests — T14/T15 have no unit tests per spec)**
+
+### Phase 4 gates
+- coupling-analysis: ✅ Healthy — EkkoApp and EkkaCLI use Contract Coupling; one dead import found
+- simplify: ✅ Applied — removed unused `import EkkaPlatform` from `RootCommand.swift`. Commit: `59bfe15`
+- Architecture purity: ✅ zero results
+- friction.md: ✅ Empty
 
 ## In Progress
 
-Nothing — Phase 3 complete. Awaiting user approval to start Phase 4.
+Nothing — Phase 4 complete and gates passed. Awaiting user approval to start Phase 5.
 
 ## Pending
 
-### Phase 4 — App Shell + CLI Entry Point (parallel, T14–T15)
+### Phase 5 — Integration + Verification (sequential, T16–T17)
 
 | Task | What | Depends on |
 |---|---|---|
-| T14 [P] | EkkoApp Xcode project + placeholder UI | T1, T8 — **requires manual Xcode GUI step** |
-| T15 [P] | EkkoCLI entry point (main.swift + RootCommand + AgentTriggerCommand) | T1, T8 |
+| T16 | EkkoApp startup wiring — `AppDelegate.swift`: init `DefaultFeatureFlagProvider`, register launchd agent on first launch | T11, T13, T14 |
+| T17 | Final verification — full test suite, arch purity, xcodebuild, launchd smoke test, CLI version check | All |
 
-### Phase 5 — Integration + Verification (sequential, T16–T17)
+## Design Decisions Made in Phase 4
 
-## Design Decisions Made in Phase 3
-
-- **LaunchdScheduler plist template**: embedded as `static let plistTemplate` string (not loaded from bundle) — avoids SPM resource resolution complexity in tests. File `com.ekko.agent.plist` mirrors the constant and is declared as `.copy` resource.
-- **CLIInstaller static API**: kept for T16 wiring convenience. Instance API (`performInstall`, `performUninstall`, `checkInstalled`) exposed for testability.
-- **ConfigError**: no associated values on error cases — keeps error type `Equatable` and API clean. Defer richer error info to M1 if needed.
-- **fileManager injection in DirectFileSystemProvider**: kept as `init(fileManager:)` parameter for future testability (tests use temp dirs rather than mock FileManager currently).
+- **RootCommand imports**: scoped to EkkoCore only (EkkaPlatform removed as unused). When M1 commands need platform adapters, they will add the import explicitly.
+- **ContentView placeholder**: `Text("Ekko \(EkkoVersion.current)")` uses SwiftUI's LocalizedStringKey — correctly localized via mechanism. Semantic key names deferred to M1 when real UI is designed.
 
 ## Blockers
 
@@ -66,4 +76,5 @@ None.
 ## Environment Notes
 
 - Swift Testing requires Xcode.app — prefix ALL commands with `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`
-- T14 requires a manual Xcode GUI step (create `.xcodeproj`) — agent must post the MANUAL STEP REQUIRED block and wait
+- T16 adds `AppDelegate.swift` to the Xcode target — use `xcodebuild build` to verify, not `swift build`
+- launchd smoke test in T17 requires a running macOS session (not CI-only)
