@@ -348,14 +348,15 @@ All phases complete, then:
 > Agent handles everything else below.
 
 **Done when**:
-- [ ] `EkkoAppApp.swift`: `@main struct EkkoAppApp: App` with a single `WindowGroup { ContentView() }`
-- [ ] `ContentView.swift`: placeholder showing `Text("Ekko \(EkkoVersion.current)")` — no hardcoded strings (uses `String(localized:)`)
-- [ ] `Localizable.xcstrings` catalog created in EkkoApp resources with EN as base locale and PT-BR as second locale; build setting `SWIFT_EMIT_LOC_STRINGS = YES`
-- [ ] App compiles and shows placeholder window
-- [ ] Gate passes: `xcodebuild build -scheme EkkoApp -destination 'platform=macOS'`
+- [x] `EkkoAppApp.swift`: `@main struct EkkoAppApp: App` with a single `WindowGroup { ContentView() }`
+- [x] `ContentView.swift`: placeholder showing `Text("Ekko \(EkkoVersion.current)")` — no hardcoded strings (uses `String(localized:)`)
+- [x] `Localizable.xcstrings` catalog created in EkkoApp resources with EN as base locale and PT-BR as second locale; build setting `SWIFT_EMIT_LOC_STRINGS = YES`
+- [x] App compiles and shows placeholder window
+- [x] Gate passes: `xcodebuild build -scheme EkkoApp -destination 'platform=macOS'`
 
 **Tests**: none (UI — manual verification)
 **Gate**: app-build
+**Status**: complete — commit `d85effd`
 
 ---
 
