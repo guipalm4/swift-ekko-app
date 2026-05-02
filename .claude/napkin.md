@@ -75,6 +75,9 @@
 4. **[2026-05-01] Session ending with work in progress requires HANDOFF.md**
    Do instead: update tasks.md statuses → update STATE.md → create .specs/HANDOFF.md before closing.
 
+4b. **[2026-05-02] HANDOFF.md must be updated at Phase DOD, not only at session end**
+    Do instead: after posting phase summary and before asking for user approval, update HANDOFF.md with completed phase, gate results, design decisions, and next task. This is now a Phase DOD checklist item in CLAUDE.md.
+
 5. **[2026-05-01] SPEC_DEVIATION must be flagged in commit message and phase summary**
    Do instead: mark `SPEC_DEVIATION` in commit body, explain in phase summary. Never deviate silently.
 

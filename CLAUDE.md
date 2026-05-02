@@ -163,6 +163,7 @@ Each subagent does NOT receive: chat history, other tasks' definitions, STATE.md
 [ ] scripts/ review: any command rewritten from scratch or run 2+ times with adjustments?
     → yes: add to scripts/ or playbook.md before closing the phase
     → no:  nothing to do
+[ ] HANDOFF.md: updated — completed phase, gate results, design decisions, next task
 [ ] Phase summary posted: tasks done, test count, any spec deviations
 [ ] User has approved before next phase begins
 ```
